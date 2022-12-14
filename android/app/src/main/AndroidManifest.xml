@@ -4,6 +4,9 @@
         android:label="landandplot"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- Our Google Maps API key -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDPgXT-QrgxMzzpB-9619btqeglGvZwrSA"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
