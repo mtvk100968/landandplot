@@ -1,2 +1,4 @@
 https://codelabs.developers.google.com/codelabs/google-maps-in-flutter
 https://www.geeksforgeeks.org/how-to-get-users-current-location-on-google-maps-in-flutter/ 
+https://levelup.gitconnected.com/how-to-add-google-maps-in-a-flutter-app-and-get-the-current-location-of-the-user-dynamically-2172f0be53f6 \
+https://www.flutterbeads.com/change-app-launcher-icon-flutter/ 

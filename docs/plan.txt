@@ -1,0 +1,11 @@
+opens with center on your location
+shows markers near you on lands and plots for sale 
+
+add property
+store property
+view property
+
+form - 
+https://dharani.telangana.gov.in/knowLandStatus
+Survey#/SubDivision#
+District, Mandal, Village
