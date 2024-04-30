@@ -1,0 +1,118 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
+void main() {
+String jsonContent = """
+    [
+      {
+          "propertyId": "1",
+          "latitude": 17.070222,
+          "longitude": 78.196167
+      },
+      {
+          "propertyId": "2",
+          "latitude": 17.437988,
+          "longitude": 78.373893
+      }
+      {
+          "propertyId": "3",
+          "latitude": 17.024201,
+          "longitude": 78.217112,
+      }
+      {
+          "propertyId": "4",
+          "latitude": 17.072443,
+          "longitude": 78.166646
+      }
+      {
+          "propertyId": "5",
+          "latitude": 17.073698,
+          "longitude": 78.151284
+      }
+      {
+          "propertyId": "6",
+          "latitude": 17.073712,
+          "longitude": 78.151387,
+      }
+
+      {
+          "propertyId": "7",
+          "latitude": 17.071343,
+          "longitude": 78.142960
+      }
+      {
+          "propertyId": "8",
+          "latitude": 17.073698,
+          "longitude": 78.151284
+      }
+      {
+          "propertyId": "9",
+          "latitude": 17.071723,
+          "longitude": 78.144188,
+      }
+      {
+          "propertyId": "10",
+          "latitude": 17.437988,
+          "longitude": 78.373893
+      }
+      {
+          "propertyId": "11",
+          "latitude": 17.070142,
+          "longitude": 78.196137
+      }
+      {
+          "propertyId": "12",
+          "latitude": 17.039022,
+          "longitude": 78.237900,
+      }
+      {
+          "propertyId": "13",
+          "latitude": 17.069619,
+          "longitude": 78.196119
+      }
+      {
+          "propertyId": "14",
+          "latitude": 17.069619,
+          "longitude": 78.196119
+      }
+      {
+          "propertyId": "15",
+          "latitude": 17.069390,
+          "longitude": 78.196091,
+      }
+      {
+          "propertyId": "16",
+          "latitude": 17.071784,
+          "longitude": 78.144191,
+      }
+      {
+          "propertyId": "17",
+          "latitude": 17.070385,
+          "longitude": 78.196547
+
+      }
+      {
+          "propertyId": "18",
+          "latitude": 17.069908,
+          "longitude": 78.196134
+      }
+      {
+          "propertyId": "19",
+          "latitude": 17.069898,
+          "longitude": 78.195707
+      }
+      {
+          "propertyId": "20',
+          "latitude": 17.163584,
+          "longitude": 78.377753
+      }
+    ]
+    """;
+
+    try {
+        List<dynamic> jsonData = jsonDecode(jsonContent);
+            print(jsonData);
+        } catch (e) {
+            print('Error parsing JSON: $e');
+        }
+}

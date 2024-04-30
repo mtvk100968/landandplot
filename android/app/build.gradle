@@ -1,0 +1,151 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services'
+}
+
+// Initialize a Properties object
+def localProperties = new Properties()
+
+// Load the local.properties file
+def localPropertiesFile = rootProject.file('local.properties')
+
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+// Access the SDK directory
+def sdkDir = localProperties['sdk.dir'] // Use 'sdk.dir' as the key, not the path
+
+// Now sdkDir should contain the path "/Users/mrudula/Library/Android/sdk"
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+android {
+    namespace "com.mmsoft.landandplot"
+    compileSdkVersion 34
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:deprecation"
+        }
+    }
+
+    flavorDimensions "default" // Add a flavor dimension
+
+    signingConfigs {
+        release {
+            storeFile file('mykeystore.keystore')
+            storePassword 'your_store_password'
+            keyAlias 'your_key_alias'
+            keyPassword 'your_key_password'
+        }
+    }
+
+    productFlavors {
+        landandplot {
+            dimension "default" // Assign the flavor to the dimension
+            // You can customize the configuration for the Landandplot variant here if needed
+        }
+    }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+
+    lintOptions {
+        abortOnError false
+        warning 'deprecation'
+        warning 'unchecked'
+        disable 'Deprecated'
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.mmsoft.landandplot"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        minSdkVersion 21
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+
+        // Add the namespace here
+        resValue("string", "app_namespace", "com.mmsoft.landandplot")
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.release
+
+        }
+        debug {
+            // Enable debuggable APKs
+            debuggable true
+
+            // Apply the signing configuration for the debug build
+            signingConfig signingConfigs.debug
+            // applicationIdSuffix ".debug" // Adds a suffix to the application ID
+            // versionNameSuffix "-DEBUG" // Adds a suffix to the version name
+
+            // Other configurations such as signing configs, proguard rules, etc.
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    //implementation 'com.example.some-library:version'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.firebase:firebase-bom:32.6.0'
+    implementation 'com.google.firebase:firebase-analytics:20.0.0'
+    // Facebook SDK Core only (Analytics)
+    implementation 'com.facebook.android:facebook-core:9.0.0' // Replace 9.0.0 with the latest version
+    // Facebook Share only
+    // implementation 'com.facebook.android:facebook-share:latest_version'
+
+    // Include all the Facebook SDK (Analytics, Login, Share)
+    implementation 'com.facebook.android:facebook-android-sdk:16.0.0'
+}
+
+// Override the library
+configurations.all {
+    resolutionStrategy {
+        force 'io.flutter.plugins.googlemaps:google_maps_flutter_android:1.0.0' // replace 1.0.0 with the actual version number
+    }
+}
+//
+//// Ensure that the 'assembleLandandplotDebug' task is properly registered
+//tasks.register("assembleLandandplotDebug") {
+//    dependsOn "assembleLandandplot"
+//}
+
+// At the bottom of the file, ensure to apply the Google Services plugin
+apply plugin: 'com.google.gms.google-services'

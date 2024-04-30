@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.3.0" type="baseline" client="gradle" dependencies="false" name="AGP (7.3.0)" variant="all" version="7.3.0">
+
+    <issue
+        id="UnknownIssueId"
+        message="Unknown issue id &quot;deprecation&quot;"
+        errorLine1="            options.compilerArgs &lt;&lt; &quot;-Xlint:deprecation&quot;"
+        errorLine2="                                            ~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="41"
+            column="45"/>
+    </issue>
+
+    <issue
+        id="UnknownIssueId"
+        message="Unknown issue id &quot;unchecked&quot;"
+        errorLine1="        warning &apos;unchecked&apos;"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="52"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.code.gson:gson than 2.8.6 is available: 2.10.1"
+        errorLine1="}"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="89"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-bom than 32.6.0 is available: 32.8.1"
+        errorLine1=""
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="90"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-analytics than 20.0.0 is available: 21.6.2"
+        errorLine1="dependencies {"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="91"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.facebook.android:facebook-core than 9.0.0 is available: 16.3.0"
+        errorLine1="    implementation &apos;com.google.code.gson:gson:2.8.6&apos;"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="93"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="This folder configuration (`v21`) is unnecessary; `minSdkVersion` is 21. Merge all the resources in this folder into `drawable`.">
+        <location
+            file="src/main/res/drawable-v21"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.app_namespace` appears to be unused">
+        <location
+            file="build.gradle"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.app_name` appears to be unused"
+        errorLine1="    &lt;string name=&quot;app_name&quot;>landandplot&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="3"
+            column="13"/>
+    </issue>
+
+</issues>

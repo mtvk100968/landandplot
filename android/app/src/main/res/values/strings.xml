@@ -1,0 +1,6 @@
+<resources>
+    <string name="facebook_app_id">827299432760216</string>
+    <string name="app_name">landandplot</string>
+    <string name="fb_login_protocol_scheme">fb827299432760216</string>
+    <string name="facebook_client_token">03c1e62e67da84d6ce15fdb6c1ff634f</string>
+</resources>

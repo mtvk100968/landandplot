@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "552375181319",
+    "firebase_url": "https://landandplot-1009.firebaseio.com",
+    "project_id": "landandplot-1009",
+    "storage_bucket": "landandplot-1009.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552375181319:android:95b1e51755933e60360aa2",
+        "android_client_info": {
+          "package_name": "com.mmsoft.landandplot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552375181319-bd2vgnq6sb3mbq295racfqbmn7gf6ocm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASbumO_6lhs3SNKCx1UOs7DgmURjOJHDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115225675474683479591",
+              "client_type": 3
+            },
+            {
+              "client_id": "552375181319-0uck3g8pqn6nbm7sbjt9geroj6f3lh1e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.googlemapsProp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

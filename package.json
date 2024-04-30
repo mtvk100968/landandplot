@@ -1,0 +1,25 @@
+{
+  "name": "landandplot",
+  "version": "1.0.0",
+  "description": "landandplot for Buy and sell properties",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "landandplot"
+  },
+  "keywords": [
+    "rentlo"
+  ],
+  "author": "TVK MADHUSUDAN",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^10.7.0"
+  }
+}
