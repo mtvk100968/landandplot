@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>552375181319-jrce03vleoaguhppdsnpn5r8oh8vjs1q.apps.googleusercontent.com</string>
+	<string>427763326374-4co0khj31ti88ms75n262bchjfs31q7r.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.552375181319-jrce03vleoaguhppdsnpn5r8oh8vjs1q</string>
+	<string>com.googleusercontent.apps.427763326374-4co0khj31ti88ms75n262bchjfs31q7r</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>552375181319-lno2u3g1lrs8fm9o02vu2oj8j79oq81g.apps.googleusercontent.com</string>
+	<string>427763326374-3e7si5ms659aeae4olj7g6hjv0jfef09.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB0C2CCzmHSRBeQRwW9zD5qmzqz0VG56gE</string>
+	<string>AIzaSyC2lEfIGUP7jJ8R46Kl53QySDjUP9SGkH8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>552375181319</string>
+	<string>427763326374</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.mmsoft.landandplot</string>
 	<key>PROJECT_ID</key>
-	<string>landandplot-1009</string>
+	<string>land-65eee</string>
 	<key>STORAGE_BUCKET</key>
-	<string>landandplot-1009.appspot.com</string>
+	<string>land-65eee.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:552375181319:ios:83e134bed542e9de360aa2</string>
-	<key>DATABASE_URL</key>
-	<string>https://landandplot-1009.firebaseio.com</string>
+	<string>1:427763326374:ios:7b64726a09a6e2e4468367</string>
 </dict>
 </plist>

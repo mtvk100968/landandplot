@@ -2,17 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-
-    <key>io.flutter.embedded_views_preview</key>
-    <string>YES</string>
-    <key>GoogleMapsAPIKey</key>
-    <string>AIzaSyBzXWJe784Qh5lvTuRgYeab7_zcTcfdhdc</string>
-
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need access to your location for navigation purposes</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>We need access to your location for background navigation purposes</string>
-
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -33,10 +24,18 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>GoogleMapsAPIKey</key>
+	<string>AIzaSyBzXWJe784Qh5lvTuRgYeab7_zcTcfdhdc</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need access to your location for background navigation purposes</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need access to your location for navigation purposes</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>Main.storyboard</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
@@ -52,9 +51,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
 </dict>
 </plist>

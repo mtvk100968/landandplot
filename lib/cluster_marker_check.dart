@@ -46,8 +46,8 @@ import 'package:geocoding_platform_interface/src/models/location.dart'
 late final double latitude;
 late final double longitude;
 
-final places =
-    GoogleMapsPlaces(apiKey: 'AIzaSyCXMU535-5XIMSMET7hHIe3a921bJu9ebM');
+final places = GoogleMapsPlaces(
+    apiKey: 'AIzaSyCXMU535-AIzaSyBzXWJe784Qh5lvTuRgYeab7_zcTcfdhdc');
 
 enum CustomMapType {
   normal,
@@ -969,7 +969,8 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
   Future<String?> fetchPlaceId(String input) async {
     final String baseUrl =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    final String apiKey = 'AIzaSyCXMU535-5XIMSMET7hHIe3a921bJu9ebM';
+    final String apiKey =
+        'AIzaSyCXMU535-AIzaSyBzXWJe784Qh5lvTuRgYeab7_zcTcfdhdc';
     print('I am in fetchPlaceId');
 
     final response = await http.get(
@@ -997,7 +998,8 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
       String input, Function(String) onSelectPlace) async {
     final String baseUrl =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    final String apiKey = 'AIzaSyCXMU535-5XIMSMET7hHIe3a921bJu9ebM';
+    final String apiKey =
+        'AIzaSyCXMU535-AIzaSyBzXWJe784Qh5lvTuRgYeab7_zcTcfdhdc';
     try {
       final response = await http.get(Uri.parse(
           '$baseUrl?input=${Uri.encodeComponent(input)}&key=$apiKey'));
@@ -1202,7 +1204,8 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
 
   Future<LatLng> fetchCoordinatesFromPlaceId(String placeId) async {
     print('I am in fetchCoordinatesFromPlaceId');
-    final String apiKey = 'AIzaSyCXMU535-5XIMSMET7hHIe3a921bJu9ebM';
+    final String apiKey =
+        'AIzaSyCXMU535-AIzaSyBzXWJe784Qh5lvTuRgYeab7_zcTcfdhdc';
     final String apiUrl =
         "https://maps.googleapis.com/maps/api/place/details/json?placeid=${Uri.encodeComponent(placeId)}&fields=geometry&key=$apiKey";
     print('fetchCoordinatesFromPlaceId value placeId: $placeId');
@@ -1257,7 +1260,8 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
   Future<LatLng> _convertPlaceToCoordinates(String placeId) async {
     print('I am in _convertPlaceToCoordinates');
     // Replace with your actual API endpoint and API key.
-    final String apiKey = 'AIzaSyCXMU535-5XIMSMET7hHIe3a921bJu9ebM';
+    final String apiKey =
+        'AIzaSyCXMU535-AIzaSyBzXWJe784Qh5lvTuRgYeab7_zcTcfdhdc';
     final String apiUrl =
         'https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&key=$apiKey';
     final response = await http.get(Uri.parse(apiUrl));

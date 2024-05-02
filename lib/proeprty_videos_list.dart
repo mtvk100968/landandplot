@@ -98,9 +98,9 @@ class _PropertyVideosListState extends State<PropertyVideosList> {
         backgroundColor: Colors.white, // Set the background color to white
         titleSpacing: 0.0, // Adjust the spacing here as needed
         title: Text(
-          'LANDANDPLOT',
+          'RENTLOAPP',
           style: TextStyle(
-            color: Colors.green, // Set the text color to black
+            color: Colors.blue, // Set the text color to black
             fontSize: 30, // Adjust the font size as needed
             fontWeight: FontWeight.w800, // Make the text bold
           ),

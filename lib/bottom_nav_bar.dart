@@ -51,7 +51,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ProfilePage(),
       FavoritesPage(userId: widget.userId),
       PropertyVideosList(),
-      SigninScreen(),// Here's your video list page
+      SigninScreen(), // Here's your video list page
     ];
 
     return Scaffold(
