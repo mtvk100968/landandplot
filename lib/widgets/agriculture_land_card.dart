@@ -7,10 +7,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart' as loc; // Aliased location package
 import 'package:permission_handler/permission_handler.dart';
-import '../../services/storage_service.dart';
-import '../amenities_card.dart';
-import '../extra_amenities_card.dart';
-import '../location_card.dart';
+import '../services/storage_service.dart';
+import 'amenities_card.dart';
+import 'extra_amenities_card.dart';
+import 'location_card.dart';
 
 class AgricultureLandCard extends StatefulWidget {
   final TextEditingController propertyIdController;
@@ -23,7 +23,10 @@ class AgricultureLandCard extends StatefulWidget {
   final TextEditingController roadAccessController;
   final TextEditingController roadInfeetsController;
   final TextEditingController landFaceingLengthController;
-
+  final TextEditingController latitudeController;
+  final TextEditingController longitudeController;
+  final Map<String, dynamic> propertyDetails;
+  final Function(Map<String, dynamic>) onSave;
   AgricultureLandCard({
     Key? key,
     required this.propertyIdController,
@@ -36,6 +39,10 @@ class AgricultureLandCard extends StatefulWidget {
     required this.roadAccessController,
     required this.roadInfeetsController,
     required this.landFaceingLengthController,
+    required this.latitudeController,
+    required this.longitudeController,
+    required this.propertyDetails,
+    required this.onSave,
   }) : super(key: key);
 
   @override
@@ -235,6 +242,7 @@ class _AgricultureLandCardState extends State<AgricultureLandCard> {
                           return null;
                         },
                       ),
+
                       TextFormField(
                         controller: widget.mobileNoController,
                         decoration: InputDecoration(labelText: 'Mobile No'),

@@ -1,56 +1,57 @@
-// gcvilla_card.dart
+// house_card.dart
 import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:landandplot/widgets/regular_amenities_card.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../amenities_card.dart';
-import '../extra_amenities_card.dart';
-import '../location_card.dart';
+import 'location_card.dart';
 
-class GcVillaCard extends StatefulWidget {
+class HouseCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
-  final TextEditingController propertyNameController;
-  final TextEditingController rentPerMonthController;
-  final TextEditingController advanceRentController;
-  final TextEditingController areaInSqftController;
+  final TextEditingController propertyOwnerNameController;
+  final TextEditingController housePriceController;
+  final TextEditingController totalAreaController;
   final TextEditingController carpetAreaController;
   final TextEditingController bedRoomsController;
   final TextEditingController bathRoomsController;
   final TextEditingController balConiesController;
+  final TextEditingController latitudeController;
+  final TextEditingController longitudeController;
   final Map<String, dynamic> propertyDetails;
   final Function(Map<String, dynamic>) onSave;
-  GcVillaCard({
+  HouseCard({
     Key? key,
     required this.propertyIdController,
     required this.mobileNoController,
-    required this.propertyNameController,
-    required this.rentPerMonthController,
-    required this.advanceRentController,
-    required this.areaInSqftController,
+    required this.propertyOwnerNameController,
+    required this.housePriceController,
+    required this.totalAreaController,
     required this.carpetAreaController,
     required this.bedRoomsController,
     required this.bathRoomsController,
     required this.balConiesController,
+    required this.latitudeController,
+    required this.longitudeController,
     required this.propertyDetails,
     required this.onSave,
   }) : super(key: key);
 
   @override
-  _GcVillaCardState createState() => _GcVillaCardState();
+  _HouseCardState createState() => _HouseCardState();
 }
 
-class _GcVillaCardState extends State<GcVillaCard> {
+class _HouseCardState extends State<HouseCard> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   List<XFile> _imageFileList = [];
   bool _isSubmitting = false;
-
   bool _showDetails = false;
 
   void _handleMapTap(LatLng position) {
@@ -59,30 +60,13 @@ class _GcVillaCardState extends State<GcVillaCard> {
       _showDetails = false;
     });
   }
-  Map<String, bool> amenities = {
-    'Internet': false,
-    'Cctv': false,
-    'Power Backup': false,
-    'Fire Extinguishers': false,
-    'Car Parking': false,
-    'Gas Pipeline': false,
-    'Intercom': false,
-    'Security': false,
-  };
 
-  Map<String, bool> extraAmenities = {
-    'Gym': false,
-    'Jogging Park': false,
-    'Spa': false,
-    'Swimming Pool': false,
-    'Indoor Games': false,
-    'Grocery Shop': false,
-    'Sports Ground': false,
-    'Yoga': false,
-    'Shuttle Court': false,
-    'Pre-school': false,
-    'Shuttle': false,
-    'Fire Sensor': false,
+  Map<String, bool> rguler_amenities = {
+    'Ghmc Water': false,
+    'Lift': false,
+    'Power Backup': false,
+    'Bike Parking': false,
+    'Car Parking': false,
   };
 
   void _onMapCreated(GoogleMapController controller) {}
@@ -124,13 +108,7 @@ class _GcVillaCardState extends State<GcVillaCard> {
 
   void _handleAmenitiesChanged(Map<String, bool> updatedAmenities) {
     setState(() {
-      amenities = updatedAmenities;
-    });
-  }
-
-  void _handleExtraAmenitiesChanged(Map<String, bool> updatedExtraAmenities) {
-    setState(() {
-      extraAmenities = updatedExtraAmenities;
+      rguler_amenities = updatedAmenities;
     });
   }
 
@@ -147,6 +125,16 @@ class _GcVillaCardState extends State<GcVillaCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
+                    TextFormField(
+                      controller: widget.propertyIdController,
+                      decoration: InputDecoration(labelText: 'Property ID'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Property ID';
+                        }
+                        return null;
+                      },
+                    ),
                     TextFormField(
                       controller: widget.propertyIdController,
                       decoration: InputDecoration(labelText: 'Mobile No'),
@@ -166,17 +154,17 @@ class _GcVillaCardState extends State<GcVillaCard> {
                       ],
                     ),
                     TextFormField(
-                      controller: widget.propertyNameController,
-                      decoration: InputDecoration(labelText: 'Property Name'),
+                      controller: widget.propertyOwnerNameController,
+                      decoration: InputDecoration(labelText: 'Property Owner Name'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter Property Name';
+                          return 'Please enter Property Owner Name';
                         }
                         return null;
                       },
                     ),
                     TextFormField(
-                      controller: widget.areaInSqftController,
+                      controller: widget.housePriceController,
                       decoration: InputDecoration(labelText: 'Total Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -195,7 +183,7 @@ class _GcVillaCardState extends State<GcVillaCard> {
                       ],
                     ),
                     TextFormField(
-                      controller: widget.carpetAreaController,
+                      controller: widget.totalAreaController,
                       decoration: InputDecoration(labelText: 'Carpet Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -214,7 +202,7 @@ class _GcVillaCardState extends State<GcVillaCard> {
                       ],
                     ),
                     TextFormField(
-                      controller: widget.rentPerMonthController,
+                      controller: widget.carpetAreaController,
                       decoration: InputDecoration(labelText: 'Rent per Month'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -223,25 +211,6 @@ class _GcVillaCardState extends State<GcVillaCard> {
                         final amount = int.tryParse(value);
                         if (amount == null || amount < 0 || amount > 1000000) {
                           return 'Please enter a valid Rent per Month (up to 1,000,000)';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(7),
-                      ],
-                    ),
-                    TextFormField(
-                      controller: widget.advanceRentController,
-                      decoration: InputDecoration(labelText: 'Advance Rent'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Advance Rent';
-                        }
-                        final amount = int.tryParse(value);
-                        if (amount == null || amount < 0 || amount > 1000000) {
-                          return 'Please enter a valid Advance Rent (up to 1,000,000)';
                         }
                         return null;
                       },
@@ -301,6 +270,7 @@ class _GcVillaCardState extends State<GcVillaCard> {
               ),
             ),
           ),
+
           Card(
             child: Padding(
               padding: EdgeInsets.all(16.0),
@@ -335,7 +305,6 @@ class _GcVillaCardState extends State<GcVillaCard> {
               ),
             ),
           ),
-
           GestureDetector(
             onTap: () {
               _handleMapTap(LatLng(0, 0));
@@ -349,13 +318,9 @@ class _GcVillaCardState extends State<GcVillaCard> {
               onMapCreated: _onMapCreated,
             ),
           ),
-          AmenitiesCard(
+          RegularAmenitiesCard(
             onAmenitiesChanged: _handleAmenitiesChanged,
           ),
-          ExtraAmenitiesCard(
-            onExtraAmenitiesChanged: _handleExtraAmenitiesChanged,
-          ),
-
         ],
       ),
     );

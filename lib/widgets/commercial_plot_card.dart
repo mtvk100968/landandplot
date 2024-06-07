@@ -1,57 +1,56 @@
-// gcapt_card.dart
+// commercial_space_card.dart
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:landandplot/widgets/regular_amenities_card.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'location_card.dart';
 
-import '../amenities_card.dart';
-import '../extra_amenities_card.dart';
-import '../location_card.dart';
-
-class GcAptCard extends StatefulWidget {
+class CommercialPlotCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
   final TextEditingController propertyNameController;
-  final TextEditingController rentPerMonthController;
-  final TextEditingController advanceRentController;
-  final TextEditingController areaInSqftController;
-  final TextEditingController carpetAreaController;
-  final TextEditingController bedRoomsController;
-  final TextEditingController bathRoomsController;
-  final TextEditingController balConiesController;
+  final TextEditingController propertyOwnerNameController;
+  final TextEditingController areaInSyardController;
+  final TextEditingController pricePerSyardController;
+  final TextEditingController totalCPlotPriceController;
+  final TextEditingController roadAccessController;
+  final TextEditingController roadInfeetsController;
+  final TextEditingController latitudeController;
+  final TextEditingController longitudeController;
   final Map<String, dynamic> propertyDetails;
   final Function(Map<String, dynamic>) onSave;
-  GcAptCard({
+  CommercialPlotCard({
     Key? key,
     required this.propertyIdController,
     required this.mobileNoController,
     required this.propertyNameController,
-    required this.rentPerMonthController,
-    required this.advanceRentController,
-    required this.areaInSqftController,
-    required this.carpetAreaController,
-    required this.bedRoomsController,
-    required this.bathRoomsController,
-    required this.balConiesController,
+    required this.propertyOwnerNameController,
+    required this.areaInSyardController,
+    required this.pricePerSyardController,
+    required this.totalCPlotPriceController,
+    required this.roadAccessController,
+    required this.roadInfeetsController,
+    required this.latitudeController,
+    required this.longitudeController,
     required this.propertyDetails,
     required this.onSave,
   }) : super(key: key);
 
   @override
-  _GcAptCardState createState() => _GcAptCardState();
+  _CommercialPlotCardState createState() => _CommercialPlotCardState();
 }
 
-class _GcAptCardState extends State<GcAptCard> {
+class _CommercialPlotCardState extends State<CommercialPlotCard> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   List<XFile> _imageFileList = [];
   bool _isSubmitting = false;
-
   bool _showDetails = false;
 
   void _handleMapTap(LatLng position) {
@@ -61,30 +60,12 @@ class _GcAptCardState extends State<GcAptCard> {
     });
   }
 
-  Map<String, bool> amenities = {
-    'Internet': false,
-    'Cctv': false,
+  Map<String, bool> rguler_amenities = {
+    'Ghmc Water': false,
+    'Lift': false,
     'Power Backup': false,
-    'Fire Extinguishers': false,
+    'Bike Parking': false,
     'Car Parking': false,
-    'Gas Pipeline': false,
-    'Intercom': false,
-    'Security': false,
-  };
-
-  Map<String, bool> extraAmenities = {
-    'Gym': false,
-    'Jogging Park': false,
-    'Spa': false,
-    'Swimming Pool': false,
-    'Indoor Games': false,
-    'Grocery Shop': false,
-    'Sports Ground': false,
-    'Yoga': false,
-    'Shuttle Court': false,
-    'Pre-school': false,
-    'Shuttle': false,
-    'Fire Sensor': false,
   };
 
   void _onMapCreated(GoogleMapController controller) {}
@@ -126,13 +107,7 @@ class _GcAptCardState extends State<GcAptCard> {
 
   void _handleAmenitiesChanged(Map<String, bool> updatedAmenities) {
     setState(() {
-      amenities = updatedAmenities;
-    });
-  }
-
-  void _handleExtraAmenitiesChanged(Map<String, bool> updatedExtraAmenities) {
-    setState(() {
-      extraAmenities = updatedExtraAmenities;
+      rguler_amenities = updatedAmenities;
     });
   }
 
@@ -149,6 +124,16 @@ class _GcAptCardState extends State<GcAptCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
+                    TextFormField(
+                      controller: widget.propertyIdController,
+                      decoration: InputDecoration(labelText: 'Property ID'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Property ID';
+                        }
+                        return null;
+                      },
+                    ),
                     TextFormField(
                       controller: widget.propertyIdController,
                       decoration: InputDecoration(labelText: 'Mobile No'),
@@ -178,113 +163,47 @@ class _GcAptCardState extends State<GcAptCard> {
                       },
                     ),
                     TextFormField(
-                      controller: widget.areaInSqftController,
-                      decoration: InputDecoration(labelText: 'Total Area'),
+                      controller: widget.propertyOwnerNameController,
+                      decoration: InputDecoration(labelText: 'Apartment Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter Total Area';
-                        }
-                        final area = int.tryParse(value);
-                        if (area == null || area < 0 || area > 10000) {
-                          return 'Please enter a valid Total Area (up to 10,000 sqft)';
+                          return 'Please enter Apartment Area';
                         }
                         return null;
                       },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(5),
-                      ],
                     ),
                     TextFormField(
-                      controller: widget.carpetAreaController,
-                      decoration: InputDecoration(labelText: 'Carpet Area'),
+                      controller: widget.areaInSyardController,
+                      decoration: InputDecoration(labelText: 'Apartment Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter Carpet Area';
-                        }
-                        final area = int.tryParse(value);
-                        if (area == null || area < 0 || area > 10000) {
-                          return 'Please enter a valid Carpet Area (up to 10,000 sqft)';
+                          return 'Please enter Apartment Area';
                         }
                         return null;
                       },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(5),
-                      ],
                     ),
                     TextFormField(
-                      controller: widget.rentPerMonthController,
-                      decoration: InputDecoration(labelText: 'Rent per Month'),
+                      controller: widget.pricePerSyardController,
+                      decoration: InputDecoration(labelText: 'Apartment Carpet Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter Rent per Month';
-                        }
-                        final amount = int.tryParse(value);
-                        if (amount == null || amount < 0 || amount > 1000000) {
-                          return 'Please enter a valid Rent per Month (up to 1,000,000)';
+                          return 'Please enter Apartment Carpet Area';
                         }
                         return null;
                       },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(7),
-                      ],
                     ),
                     TextFormField(
-                      controller: widget.advanceRentController,
-                      decoration: InputDecoration(labelText: 'Advance Rent'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Advance Rent';
-                        }
-                        final amount = int.tryParse(value);
-                        if (amount == null || amount < 0 || amount > 1000000) {
-                          return 'Please enter a valid Advance Rent (up to 1,000,000)';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(7),
-                      ],
-                    ),
-                    TextFormField(
-                      controller: widget.bedRoomsController,
-                      decoration: InputDecoration(labelText: 'Bedrooms'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Bedrooms count';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(2),
-                      ],
-                    ),
-                    TextFormField(
-                      controller: widget.bathRoomsController,
+                      controller: widget.totalCPlotPriceController,
                       decoration: InputDecoration(labelText: 'Bathrooms'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter Bathrooms count';
+                          return 'Please enter bathrooms count';
                         }
                         return null;
                       },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(2),
-                      ],
                     ),
                     TextFormField(
-                      controller: widget.balConiesController,
+                      controller: widget.roadAccessController,
                       decoration: InputDecoration(labelText: 'Balconies'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -292,11 +211,16 @@ class _GcAptCardState extends State<GcAptCard> {
                         }
                         return null;
                       },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(2),
-                      ],
+                    ),
+                    TextFormField(
+                      controller: widget.roadInfeetsController,
+                      decoration: InputDecoration(labelText: 'Balconies'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Balconies count';
+                        }
+                        return null;
+                      },
                     ),
                   ],
                 ),
@@ -325,7 +249,7 @@ class _GcAptCardState extends State<GcAptCard> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Image.file(
-                              File(image.path),
+                              File(image!.path),
                               width: 100,
                               height: 100,
                             ),
@@ -350,13 +274,9 @@ class _GcAptCardState extends State<GcAptCard> {
               onMapCreated: _onMapCreated,
             ),
           ),
-          AmenitiesCard(
+          RegularAmenitiesCard(
             onAmenitiesChanged: _handleAmenitiesChanged,
           ),
-          ExtraAmenitiesCard(
-            onExtraAmenitiesChanged: _handleExtraAmenitiesChanged,
-          ),
-
         ],
       ),
     );

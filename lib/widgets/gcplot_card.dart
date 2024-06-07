@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,42 +7,49 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart' as loc; // Aliased location package
 import 'package:permission_handler/permission_handler.dart';
-import '../../services/storage_service.dart';
-import '../amenities_card.dart';
-import '../extra_amenities_card.dart';
-import '../location_card.dart';
+import '../services/storage_service.dart';
+import 'amenities_card.dart';
+import 'extra_amenities_card.dart';
+import 'location_card.dart';
 
-class OpenPlotCard extends StatefulWidget {
+class GcPlotCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
   final TextEditingController propertyOwnerNameController;
   final TextEditingController propertyRegByController;
-  final TextEditingController pricePerSftController;
-  final TextEditingController totalAreaController;
-  final TextEditingController totalPlotPriceController;
+  final TextEditingController pricePerAcreController;
+  final TextEditingController totalAcresController;
+  final TextEditingController totalLandPriceController;
   final TextEditingController roadAccessController;
   final TextEditingController roadInfeetsController;
   final TextEditingController landFaceingLengthController;
+  final TextEditingController latitudeController;
+  final TextEditingController longitudeController;
+  final Map<String, dynamic> propertyDetails;
+  final Function(Map<String, dynamic>) onSave;
 
-  OpenPlotCard({
+  GcPlotCard({
     Key? key,
     required this.propertyIdController,
     required this.mobileNoController,
     required this.propertyOwnerNameController,
     required this.propertyRegByController,
-    required this.pricePerSftController,
-    required this.totalAreaController,
-    required this.totalPlotPriceController,
+    required this.pricePerAcreController,
+    required this.totalAcresController,
+    required this.totalLandPriceController,
     required this.roadAccessController,
     required this.roadInfeetsController,
     required this.landFaceingLengthController,
+    required this.latitudeController,
+    required this.longitudeController,
+    required this.propertyDetails,
+    required this.onSave,
   }) : super(key: key);
-
   @override
-  _OpenPlotCardState createState() => _OpenPlotCardState();
+  _GcPlotCardState createState() => _GcPlotCardState();
 }
 
-class _OpenPlotCardState extends State<OpenPlotCard> {
+class _GcPlotCardState extends State<GcPlotCard> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -129,9 +135,9 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
         'mobileNo': widget.mobileNoController.text,
         'ownerName': widget.propertyOwnerNameController.text,
         'regBy': widget.propertyRegByController.text,
-        'pricePerAcre': int.parse(widget.pricePerSftController.text),
-        'totalAcres': int.parse(widget.totalAreaController.text),
-        'totalLandPrice': int.parse(widget.totalPlotPriceController.text),
+        'pricePerAcre': int.parse(widget.pricePerAcreController.text),
+        'totalAcres': int.parse(widget.totalAcresController.text),
+        'totalLandPrice': int.parse(widget.totalLandPriceController.text),
         'roadAccess': widget.roadAccessController.text,
         'roadInFeets': int.parse(widget.roadInfeetsController.text),
         'landFaceingLength': int.parse(widget.landFaceingLengthController.text),
@@ -143,10 +149,8 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
         widget.mobileNoController.clear();
         widget.propertyOwnerNameController.clear();
         widget.propertyRegByController.clear();
-        widget.pricePerSftController.clear();
-        widget.totalAreaController.clear();
-        widget.totalPlotPriceController.clear();
-
+        widget.pricePerAcreController.clear();
+        widget.totalAcresController.clear();
         widget.roadAccessController.clear();
         widget.roadInfeetsController.clear();
         widget.landFaceingLengthController.clear();
@@ -297,7 +301,7 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
                         maxLines: null,
                       ),
                       TextFormField(
-                        controller: widget.pricePerSftController,
+                        controller: widget.pricePerAcreController,
                         decoration: InputDecoration(labelText: 'Price per acre'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -316,7 +320,7 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
                         ],
                       ),
                       TextFormField(
-                        controller: widget.totalAreaController,
+                        controller: widget.totalAcresController,
                         decoration: InputDecoration(labelText: 'Total Acres'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -335,7 +339,7 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
                         ],
                       ),
                       TextFormField(
-                        controller: widget.totalPlotPriceController,
+                        controller: widget.totalLandPriceController,
                         decoration: InputDecoration(labelText: 'Total Land Price'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -473,4 +477,3 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
     );
   }
 }
-

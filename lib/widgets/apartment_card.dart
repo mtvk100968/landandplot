@@ -5,10 +5,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../services/storage_service.dart';
-import '../amenities_card.dart';
-import '../extra_amenities_card.dart';
-import '../location_card.dart';
+import '../services/storage_service.dart';
+import 'amenities_card.dart';
+import 'extra_amenities_card.dart';
+import 'location_card.dart';
 
 class ApartmentCard extends StatefulWidget {
   final TextEditingController propertyIdController;
@@ -21,6 +21,8 @@ class ApartmentCard extends StatefulWidget {
   final TextEditingController bedRoomsController;
   final TextEditingController bathRoomsController;
   final TextEditingController balConiesController;
+  final TextEditingController latitudeController;
+  final TextEditingController longitudeController;
   final Map<String, dynamic> propertyDetails;
   final Function(Map<String, dynamic>) onSave;
 
@@ -36,6 +38,8 @@ class ApartmentCard extends StatefulWidget {
     required this.bedRoomsController,
     required this.bathRoomsController,
     required this.balConiesController,
+    required this.latitudeController,
+    required this.longitudeController,
     required this.propertyDetails,
     required this.onSave,
   }) : super(key: key);

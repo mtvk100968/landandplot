@@ -7,18 +7,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:landandplot/widgets/regular_amenities_card.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../location_card.dart';
+import 'location_card.dart';
 
 class CommercialSpaceCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
   final TextEditingController propertyNameController;
   final TextEditingController propertyOwnerNameController;
-  final TextEditingController rentPerMonthController;
-  final TextEditingController advanceRentController;
-  final TextEditingController areaInSqftController;
-  final TextEditingController carpetAreaController;
-  final TextEditingController shatterLengthController;
+  final TextEditingController areaInSftController;
+  final TextEditingController pricePerSftController;
+  final TextEditingController totalCSpacePriceController;
+  final TextEditingController roadAccessController;
+  final TextEditingController roadInfeetsController;
   final TextEditingController latitudeController;
   final TextEditingController longitudeController;
   final Map<String, dynamic> propertyDetails;
@@ -29,15 +29,15 @@ class CommercialSpaceCard extends StatefulWidget {
     required this.mobileNoController,
     required this.propertyNameController,
     required this.propertyOwnerNameController,
-    required this.areaInSqftController,
-    required this.carpetAreaController,
-    required this.rentPerMonthController,
-    required this.advanceRentController,
-    required this.shatterLengthController,
-    required this.propertyDetails,
-    required this.onSave,
+    required this.areaInSftController,
+    required this.pricePerSftController,
+    required this.totalCSpacePriceController,
+    required this.roadAccessController,
+    required this.roadInfeetsController,
     required this.latitudeController,
     required this.longitudeController,
+    required this.propertyDetails,
+    required this.onSave,
   }) : super(key: key);
 
   @override
@@ -126,6 +126,16 @@ class _CommercialSpaceCardState extends State<CommercialSpaceCard> {
                   children: <Widget>[
                     TextFormField(
                       controller: widget.propertyIdController,
+                      decoration: InputDecoration(labelText: 'Property ID'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Property ID';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: widget.propertyIdController,
                       decoration: InputDecoration(labelText: 'Mobile No'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -153,7 +163,7 @@ class _CommercialSpaceCardState extends State<CommercialSpaceCard> {
                       },
                     ),
                     TextFormField(
-                      controller: widget.rentPerMonthController,
+                      controller: widget.propertyOwnerNameController,
                       decoration: InputDecoration(labelText: 'Apartment Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -163,7 +173,7 @@ class _CommercialSpaceCardState extends State<CommercialSpaceCard> {
                       },
                     ),
                     TextFormField(
-                      controller: widget.areaInSqftController,
+                      controller: widget.areaInSftController,
                       decoration: InputDecoration(labelText: 'Apartment Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -173,7 +183,7 @@ class _CommercialSpaceCardState extends State<CommercialSpaceCard> {
                       },
                     ),
                     TextFormField(
-                      controller: widget.carpetAreaController,
+                      controller: widget.pricePerSftController,
                       decoration: InputDecoration(labelText: 'Apartment Carpet Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -183,21 +193,11 @@ class _CommercialSpaceCardState extends State<CommercialSpaceCard> {
                       },
                     ),
                     TextFormField(
-                      controller: widget.advanceRentController,
+                      controller: widget.totalCSpacePriceController,
                       decoration: InputDecoration(labelText: 'Bathrooms'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter bathrooms count';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: widget.shatterLengthController,
-                      decoration: InputDecoration(labelText: 'Balconies'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Balconies count';
                         }
                         return null;
                       },

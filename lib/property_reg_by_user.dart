@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:landandplot/screens/billing_page.dart';
 import 'package:landandplot/services/firestore_database_service.dart';
-import 'package:landandplot/widgets/widgettype/apartment_card.dart';
-import 'package:landandplot/widgets/widgettype/commercial_plot_card.dart';
-import 'package:landandplot/widgets/widgettype/gcapt_card.dart';
-import 'package:landandplot/widgets/widgettype/gcvilla_card.dart';
-import 'package:landandplot/widgets/widgettype/house_card.dart';
-import 'package:landandplot/widgets/widgettype/villa_card.dart';
+import 'package:landandplot/widgets/agriculture_land_card.dart';
+import 'package:landandplot/widgets/apartment_card.dart';
+import 'package:landandplot/widgets/commercial_plot_card.dart';
+import 'package:landandplot/widgets/commercial_space_card.dart';
+import 'package:landandplot/widgets/farmland_card.dart';
+import 'package:landandplot/widgets/gcapt_card.dart';
+import 'package:landandplot/widgets/gcvilla_card.dart';
+import 'package:landandplot/widgets/house_card.dart';
+import 'package:landandplot/widgets/villa_card.dart';
 
 class PropertyRegByUser extends StatefulWidget {
   @override
@@ -38,7 +41,6 @@ class _PropertyRegByUserState extends State<PropertyRegByUser> {
   final TextEditingController propertyNameController = TextEditingController();
   final TextEditingController rentPerMonthController = TextEditingController();
   final TextEditingController areaInSqftController = TextEditingController();
-  final TextEditingController carpetAreaController = TextEditingController();
   final TextEditingController advanceRentController = TextEditingController();
   final TextEditingController bedRoomsController = TextEditingController();
   final TextEditingController bathRoomsController = TextEditingController();
@@ -47,6 +49,29 @@ class _PropertyRegByUserState extends State<PropertyRegByUser> {
   final TextEditingController propertyOwnerNameController = TextEditingController();
   final TextEditingController latitudeController = TextEditingController();
   final TextEditingController longitudeController = TextEditingController();
+  final TextEditingController ratePerSftController = TextEditingController();
+  final TextEditingController totalAreaController = TextEditingController();
+  final TextEditingController carpetAreaController = TextEditingController();
+  final TextEditingController aminitiesChargesController = TextEditingController();
+
+  final TextEditingController propertyRegByController = TextEditingController();
+  final TextEditingController totalAcresController = TextEditingController();
+  final TextEditingController totalLandPriceController = TextEditingController();
+  final TextEditingController roadAccessController = TextEditingController();
+  final TextEditingController roadInfeetsController = TextEditingController();
+  final TextEditingController landFaceingLengthController = TextEditingController();
+  final TextEditingController pricePerAcreController = TextEditingController();
+  final TextEditingController pricePerYardController = TextEditingController();
+  final TextEditingController totalFarmLandPriceController = TextEditingController();
+  final TextEditingController areaInSyardController = TextEditingController();
+  final TextEditingController pricePerSyardController = TextEditingController();
+  final TextEditingController totalCPlotPriceController = TextEditingController();
+  final TextEditingController housePriceController = TextEditingController();
+  final TextEditingController areaInSftController = TextEditingController();
+  final TextEditingController pricePerSftController = TextEditingController();
+  final TextEditingController totalCSpacePriceController = TextEditingController();
+
+  final TextEditingController totalVillaPriceController = TextEditingController();
 
   void _handleSave(Map<String, dynamic> propertyDetails) async {
     setState(() {
@@ -144,35 +169,72 @@ class _PropertyRegByUserState extends State<PropertyRegByUser> {
                   return null;
                 },
               ),
+              if (selectedPropertyType == "AgricultureLandCard")
+                AgricultureLandCard(
+                  propertyIdController: propertyIdController,
+                  mobileNoController: mobileNoController,
+                  propertyOwnerNameController: propertyOwnerNameController,
+                  propertyRegByController: propertyRegByController,
+                  pricePerAcreController: pricePerAcreController,
+                  totalAcresController: totalAcresController,
+                  totalLandPriceController: totalLandPriceController,
+                  roadAccessController: roadAccessController,
+                  roadInfeetsController: roadInfeetsController,
+                  landFaceingLengthController: landFaceingLengthController,
+                  propertyDetails: {},
+                  onSave: _handleSave,
+                  latitudeController: latitudeController,
+                  longitudeController: longitudeController,
+                ),
+              if (selectedPropertyType == "FarmLandCard")
+                FarmLandCard(
+                  propertyIdController: propertyIdController,
+                  mobileNoController: mobileNoController,
+                  propertyOwnerNameController: propertyOwnerNameController,
+                  propertyRegByController: propertyRegByController,
+                  pricePerYardController: pricePerYardController,
+                  totalAreaController: totalAreaController,
+                  totalFarmLandPriceController: totalFarmLandPriceController,
+                  roadAccessController: roadAccessController,
+                  roadInfeetsController: roadInfeetsController,
+                  landFaceingLengthController: landFaceingLengthController,
+                  propertyDetails: {},
+                  onSave: _handleSave,
+                  latitudeController: latitudeController,
+                  longitudeController: longitudeController,
+                ),
               if (selectedPropertyType == "Apartment")
                 ApartmentCard(
                   propertyIdController: propertyIdController,
                   mobileNoController: mobileNoController,
                   propertyNameController: propertyNameController,
-                  rentPerMonthController: rentPerMonthController,
-                  areaInSqftController: areaInSqftController,
+                  ratePerSftController: ratePerSftController,
+                  totalAreaController: totalAreaController,
                   carpetAreaController: carpetAreaController,
-                  advanceRentController: advanceRentController,
+                  aminitiesChargesController: aminitiesChargesController,
                   bedRoomsController: bedRoomsController,
                   bathRoomsController: bathRoomsController,
                   balConiesController: balConiesController,
                   propertyDetails: {},
                   onSave: _handleSave,
+                  latitudeController: latitudeController,
+                  longitudeController: longitudeController,
                 ),
               if (selectedPropertyType == "House")
                 HouseCard(
                   propertyIdController: propertyIdController,
                   mobileNoController: mobileNoController,
                   propertyOwnerNameController: propertyNameController,
-                  rentPerMonthController: rentPerMonthController,
-                  areaInSqftController: areaInSqftController,
+                  housePriceController: housePriceController,
+                  totalAreaController: totalAreaController,
                   carpetAreaController: carpetAreaController,
-                  advanceRentController: advanceRentController,
                   bedRoomsController: bedRoomsController,
                   bathRoomsController: bathRoomsController,
                   balConiesController: balConiesController,
                   propertyDetails: {},
                   onSave: _handleSave,
+                  latitudeController: latitudeController,
+                  longitudeController: longitudeController,
                 ),
               if (selectedPropertyType == "Commercial Space")
                 CommercialSpaceCard(
@@ -180,11 +242,27 @@ class _PropertyRegByUserState extends State<PropertyRegByUser> {
                   mobileNoController: mobileNoController,
                   propertyNameController: propertyNameController,
                   propertyOwnerNameController: propertyOwnerNameController,
-                  rentPerMonthController: rentPerMonthController,
-                  advanceRentController: advanceRentController,
-                  areaInSqftController: areaInSqftController,
-                  carpetAreaController: carpetAreaController,
-                  shatterLengthController: shatterLengthController,
+                  areaInSftController: areaInSftController,
+                  pricePerSftController: pricePerSftController,
+                  totalCSpacePriceController: totalCSpacePriceController,
+                  roadAccessController: roadAccessController,
+                  roadInfeetsController: roadInfeetsController,
+                  propertyDetails: {},
+                  onSave: _handleSave,
+                  latitudeController: latitudeController,
+                  longitudeController: longitudeController,
+                ),
+              if (selectedPropertyType == "Commercial Plot")
+                CommercialPlotCard(
+                  propertyIdController: propertyIdController,
+                  mobileNoController: mobileNoController,
+                  propertyNameController: propertyNameController,
+                  propertyOwnerNameController: propertyOwnerNameController,
+                  areaInSyardController: areaInSyardController,
+                  pricePerSyardController: pricePerSyardController,
+                  totalCPlotPriceController: totalCPlotPriceController,
+                  roadAccessController: roadAccessController,
+                  roadInfeetsController: roadInfeetsController,
                   propertyDetails: {},
                   onSave: _handleSave,
                   latitudeController: latitudeController,
@@ -195,45 +273,52 @@ class _PropertyRegByUserState extends State<PropertyRegByUser> {
                   propertyIdController: propertyIdController,
                   mobileNoController: mobileNoController,
                   propertyNameController: propertyNameController,
-                  rentPerMonthController: rentPerMonthController,
-                  areaInSqftController: areaInSqftController,
+                  areaInSftController: areaInSftController,
                   carpetAreaController: carpetAreaController,
-                  advanceRentController: advanceRentController,
+                  pricePerSftController: pricePerSftController,
+                  totalVillaPriceController: totalVillaPriceController,
                   bedRoomsController: bedRoomsController,
                   bathRoomsController: bathRoomsController,
                   balConiesController: balConiesController,
+                  roadInfeetsController: roadInfeetsController,
                   propertyDetails: {},
                   onSave: _handleSave,
+                  latitudeController: latitudeController,
+                  longitudeController: longitudeController,
                 ),
               if (selectedPropertyType == "Gated Community Apt")
                 GcAptCard(
                   propertyIdController: propertyIdController,
                   mobileNoController: mobileNoController,
                   propertyNameController: propertyNameController,
-                  rentPerMonthController: rentPerMonthController,
-                  areaInSqftController: areaInSqftController,
+                  ratePerSftController: ratePerSftController,
+                  totalAreaController: totalAreaController,
                   carpetAreaController: carpetAreaController,
-                  advanceRentController: advanceRentController,
+                  aminitiesChargesController: aminitiesChargesController,
                   bedRoomsController: bedRoomsController,
                   bathRoomsController: bathRoomsController,
                   balConiesController: balConiesController,
                   propertyDetails: {},
                   onSave: _handleSave,
+                  latitudeController: latitudeController,
+                  longitudeController: longitudeController,
                 ),
               if (selectedPropertyType == "Gated Community Villa")
                 GcVillaCard(
                   propertyIdController: propertyIdController,
                   mobileNoController: mobileNoController,
                   propertyNameController: propertyNameController,
-                  rentPerMonthController: rentPerMonthController,
-                  areaInSqftController: areaInSqftController,
+                  ratePerSftController: ratePerSftController,
+                  totalAreaController: totalAreaController,
                   carpetAreaController: carpetAreaController,
-                  advanceRentController: advanceRentController,
+                  aminitiesChargesController: aminitiesChargesController,
                   bedRoomsController: bedRoomsController,
                   bathRoomsController: bathRoomsController,
                   balConiesController: balConiesController,
                   propertyDetails: {},
                   onSave: _handleSave,
+                  latitudeController: latitudeController,
+                  longitudeController: longitudeController,
                 ),
             ],
           ),

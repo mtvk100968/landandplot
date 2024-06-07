@@ -1,55 +1,60 @@
-// house_card.dart
+// gcvilla_card.dart
 import 'dart:io';
-import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:landandplot/widgets/regular_amenities_card.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../location_card.dart';
+import 'amenities_card.dart';
+import 'extra_amenities_card.dart';
+import 'location_card.dart';
 
-class HouseCard extends StatefulWidget {
+class GcVillaCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
-  final TextEditingController propertyOwnerNameController;
-  final TextEditingController areaInSqftController;
-  final TextEditingController rentPerMonthController;
-  final TextEditingController advanceRentController;
+  final TextEditingController propertyNameController;
+  final TextEditingController ratePerSftController;
+  final TextEditingController totalAreaController;
   final TextEditingController carpetAreaController;
+  final TextEditingController aminitiesChargesController;
   final TextEditingController bedRoomsController;
   final TextEditingController bathRoomsController;
   final TextEditingController balConiesController;
+  final TextEditingController latitudeController;
+  final TextEditingController longitudeController;
   final Map<String, dynamic> propertyDetails;
   final Function(Map<String, dynamic>) onSave;
-  HouseCard({
+  GcVillaCard({
     Key? key,
     required this.propertyIdController,
     required this.mobileNoController,
-    required this.propertyOwnerNameController,
-    required this.areaInSqftController,
-    required this.rentPerMonthController,
-    required this.advanceRentController,
+    required this.propertyNameController,
+    required this.ratePerSftController,
+    required this.totalAreaController,
+    required this.aminitiesChargesController,
     required this.carpetAreaController,
     required this.bedRoomsController,
     required this.bathRoomsController,
     required this.balConiesController,
+    required this.latitudeController,
+    required this.longitudeController,
     required this.propertyDetails,
     required this.onSave,
   }) : super(key: key);
 
   @override
-  _HouseCardState createState() => _HouseCardState();
+  _GcVillaCardState createState() => _GcVillaCardState();
 }
 
-class _HouseCardState extends State<HouseCard> {
+class _GcVillaCardState extends State<GcVillaCard> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   List<XFile> _imageFileList = [];
   bool _isSubmitting = false;
+
   bool _showDetails = false;
 
   void _handleMapTap(LatLng position) {
@@ -58,13 +63,30 @@ class _HouseCardState extends State<HouseCard> {
       _showDetails = false;
     });
   }
-
-  Map<String, bool> rguler_amenities = {
-    'Ghmc Water': false,
-    'Lift': false,
+  Map<String, bool> amenities = {
+    'Internet': false,
+    'Cctv': false,
     'Power Backup': false,
-    'Bike Parking': false,
+    'Fire Extinguishers': false,
     'Car Parking': false,
+    'Gas Pipeline': false,
+    'Intercom': false,
+    'Security': false,
+  };
+
+  Map<String, bool> extraAmenities = {
+    'Gym': false,
+    'Jogging Park': false,
+    'Spa': false,
+    'Swimming Pool': false,
+    'Indoor Games': false,
+    'Grocery Shop': false,
+    'Sports Ground': false,
+    'Yoga': false,
+    'Shuttle Court': false,
+    'Pre-school': false,
+    'Shuttle': false,
+    'Fire Sensor': false,
   };
 
   void _onMapCreated(GoogleMapController controller) {}
@@ -106,7 +128,13 @@ class _HouseCardState extends State<HouseCard> {
 
   void _handleAmenitiesChanged(Map<String, bool> updatedAmenities) {
     setState(() {
-      rguler_amenities = updatedAmenities;
+      amenities = updatedAmenities;
+    });
+  }
+
+  void _handleExtraAmenitiesChanged(Map<String, bool> updatedExtraAmenities) {
+    setState(() {
+      extraAmenities = updatedExtraAmenities;
     });
   }
 
@@ -123,6 +151,16 @@ class _HouseCardState extends State<HouseCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
+                    TextFormField(
+                      controller: widget.propertyIdController,
+                      decoration: InputDecoration(labelText: 'Property ID'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Property ID';
+                        }
+                        return null;
+                      },
+                    ),
                     TextFormField(
                       controller: widget.propertyIdController,
                       decoration: InputDecoration(labelText: 'Mobile No'),
@@ -142,17 +180,17 @@ class _HouseCardState extends State<HouseCard> {
                       ],
                     ),
                     TextFormField(
-                      controller: widget.propertyOwnerNameController,
-                      decoration: InputDecoration(labelText: 'Property Owner Name'),
+                      controller: widget.propertyNameController,
+                      decoration: InputDecoration(labelText: 'Property Name'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter Property Owner Name';
+                          return 'Please enter Property Name';
                         }
                         return null;
                       },
                     ),
                     TextFormField(
-                      controller: widget.areaInSqftController,
+                      controller: widget.ratePerSftController,
                       decoration: InputDecoration(labelText: 'Total Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -190,7 +228,7 @@ class _HouseCardState extends State<HouseCard> {
                       ],
                     ),
                     TextFormField(
-                      controller: widget.rentPerMonthController,
+                      controller: widget.totalAreaController,
                       decoration: InputDecoration(labelText: 'Rent per Month'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -209,7 +247,7 @@ class _HouseCardState extends State<HouseCard> {
                       ],
                     ),
                     TextFormField(
-                      controller: widget.advanceRentController,
+                      controller: widget.aminitiesChargesController,
                       decoration: InputDecoration(labelText: 'Advance Rent'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -277,7 +315,6 @@ class _HouseCardState extends State<HouseCard> {
               ),
             ),
           ),
-
           Card(
             child: Padding(
               padding: EdgeInsets.all(16.0),
@@ -312,6 +349,7 @@ class _HouseCardState extends State<HouseCard> {
               ),
             ),
           ),
+
           GestureDetector(
             onTap: () {
               _handleMapTap(LatLng(0, 0));
@@ -325,9 +363,13 @@ class _HouseCardState extends State<HouseCard> {
               onMapCreated: _onMapCreated,
             ),
           ),
-          RegularAmenitiesCard(
+          AmenitiesCard(
             onAmenitiesChanged: _handleAmenitiesChanged,
           ),
+          ExtraAmenitiesCard(
+            onExtraAmenitiesChanged: _handleExtraAmenitiesChanged,
+          ),
+
         ],
       ),
     );

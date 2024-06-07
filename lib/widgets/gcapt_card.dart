@@ -1,4 +1,4 @@
-// villa_card.dart
+// gcapt_card.dart
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,50 +6,56 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../amenities_card.dart';
-import '../extra_amenities_card.dart';
-import '../location_card.dart';
 
-class VillaCard extends StatefulWidget {
+import 'amenities_card.dart';
+import 'extra_amenities_card.dart';
+import 'location_card.dart';
+
+class GcAptCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
   final TextEditingController propertyNameController;
-  final TextEditingController areaInSqftController;
+  final TextEditingController ratePerSftController;
+  final TextEditingController totalAreaController;
+  final TextEditingController aminitiesChargesController;
   final TextEditingController carpetAreaController;
-  final TextEditingController rentPerMonthController;
-  final TextEditingController advanceRentController;
   final TextEditingController bedRoomsController;
   final TextEditingController bathRoomsController;
   final TextEditingController balConiesController;
+  final TextEditingController latitudeController;
+  final TextEditingController longitudeController;
   final Map<String, dynamic> propertyDetails;
   final Function(Map<String, dynamic>) onSave;
-  VillaCard({
+  GcAptCard({
     Key? key,
     required this.propertyIdController,
     required this.mobileNoController,
     required this.propertyNameController,
-    required this.rentPerMonthController,
-    required this.advanceRentController,
-    required this.areaInSqftController,
+    required this.ratePerSftController,
+    required this.totalAreaController,
+    required this.aminitiesChargesController,
     required this.carpetAreaController,
     required this.bedRoomsController,
     required this.bathRoomsController,
     required this.balConiesController,
+    required this.latitudeController,
+    required this.longitudeController,
     required this.propertyDetails,
     required this.onSave,
   }) : super(key: key);
 
   @override
-  _VillaCardState createState() => _VillaCardState();
+  _GcAptCardState createState() => _GcAptCardState();
 }
 
-class _VillaCardState extends State<VillaCard> {
+class _GcAptCardState extends State<GcAptCard> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   List<XFile> _imageFileList = [];
   bool _isSubmitting = false;
+
   bool _showDetails = false;
 
   void _handleMapTap(LatLng position) {
@@ -58,6 +64,7 @@ class _VillaCardState extends State<VillaCard> {
       _showDetails = false;
     });
   }
+
   Map<String, bool> amenities = {
     'Internet': false,
     'Cctv': false,
@@ -148,6 +155,16 @@ class _VillaCardState extends State<VillaCard> {
                   children: <Widget>[
                     TextFormField(
                       controller: widget.propertyIdController,
+                      decoration: InputDecoration(labelText: 'Property ID'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Property ID';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: widget.propertyIdController,
                       decoration: InputDecoration(labelText: 'Mobile No'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -175,7 +192,7 @@ class _VillaCardState extends State<VillaCard> {
                       },
                     ),
                     TextFormField(
-                      controller: widget.areaInSqftController,
+                      controller: widget.ratePerSftController,
                       decoration: InputDecoration(labelText: 'Total Area'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -213,7 +230,7 @@ class _VillaCardState extends State<VillaCard> {
                       ],
                     ),
                     TextFormField(
-                      controller: widget.rentPerMonthController,
+                      controller: widget.totalAreaController,
                       decoration: InputDecoration(labelText: 'Rent per Month'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -232,7 +249,7 @@ class _VillaCardState extends State<VillaCard> {
                       ],
                     ),
                     TextFormField(
-                      controller: widget.advanceRentController,
+                      controller: widget.aminitiesChargesController,
                       decoration: InputDecoration(labelText: 'Advance Rent'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -300,7 +317,6 @@ class _VillaCardState extends State<VillaCard> {
               ),
             ),
           ),
-
           Card(
             child: Padding(
               padding: EdgeInsets.all(16.0),
@@ -335,7 +351,6 @@ class _VillaCardState extends State<VillaCard> {
               ),
             ),
           ),
-
           GestureDetector(
             onTap: () {
               _handleMapTap(LatLng(0, 0));
@@ -355,6 +370,7 @@ class _VillaCardState extends State<VillaCard> {
           ExtraAmenitiesCard(
             onExtraAmenitiesChanged: _handleExtraAmenitiesChanged,
           ),
+
         ],
       ),
     );
