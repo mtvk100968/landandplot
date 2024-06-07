@@ -2,11 +2,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:landandplot/profile_page.dart';
-import 'package:landandplot/screens/signin_screen.dart';
 import 'package:landandplot/proeprty_videos_list.dart';
+import 'package:landandplot/screens/login_screen.dart';
 import 'custom_drawer.dart';
 import 'home_screen.dart';
-import 'models/property_address.dart';
+import 'models/property_info.dart';
 
 class FavoritesPage extends StatefulWidget {
   final String userId;
@@ -17,8 +17,8 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-  List<PropertyAddress> _favoriteProperties = []; // Rename this variable
-  late Future<List<PropertyAddress>>
+  List<PropertyInfo> _favoriteProperties = []; // Rename this variable
+  late Future<List<PropertyInfo>>
       _fetchFavoriteProperties; // Rename this future
 
   int _selectedIndex = 0;
@@ -36,7 +36,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   // When you have the user ID and want to navigate to FavoritesPage
   String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
-  Future<List<PropertyAddress>> _fetchPropertyAddresses(String userId) async {
+  Future<List<PropertyInfo>> _fetchPropertyAddresses(String userId) async {
     // Implement your logic to fetch favorite properties based on the userId
     // For example, you might query a database or make a network request
     // Return a List<PropertyAddress> containing the favorite properties
@@ -53,7 +53,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       case 0:
         Navigator.pushReplacement(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
         );
         break;
       case 1:
@@ -83,7 +83,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         // Navigate to Search Screen
         Navigator.pushReplacement(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => SigninScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
         );
         break;
     }

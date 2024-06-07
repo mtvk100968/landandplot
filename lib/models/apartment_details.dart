@@ -4,15 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Apartment_Details {
   final String propertyId;
-  final double propertyName;
-  final double pricePerSft;
+  final double mobileNo;
+  final String propertyName;
+  final double rentPerMonth;
   final double totalArea;
   final double carpetArea;
-  final double price;
+  final double advanceRent;
   final double bedRooms;
   final double bathRooms;
   final double balConies;
-  final String village;
+  final String houseNo;
   final String colony;
   final String tmc;
   final String city;
@@ -24,15 +25,16 @@ class Apartment_Details {
 
   Apartment_Details({
     required this.propertyId,
+    required this.mobileNo,
     required this.propertyName,
-    required this.pricePerSft,
+    required this.rentPerMonth,
     required this.totalArea,
     required this.carpetArea,
-    required this.price,
+    required this.advanceRent,
     required this.bedRooms,
     required this.bathRooms,
     required this.balConies,
-    required this.village,
+    required this.houseNo,
     required this.colony,
     required this.tmc,
     required this.city,
@@ -45,15 +47,16 @@ class Apartment_Details {
   Map<String, dynamic> toMap() {
     return {
       'propertyId': propertyId,
+      'mobileNo': mobileNo,
       'propertyName': propertyName,
-      'pricePerSft': pricePerSft,
+      'rentPerMonth': rentPerMonth,
       'totalArea': totalArea,
       'carpetArea': carpetArea,
-      'price': price,
+      'advanceRent': advanceRent,
       'bedRooms': bedRooms,
       'bathRooms': bathRooms,
       'balConies': balConies,
-      'village': village,
+      'houseNo': houseNo,
       'colony': colony,
       'tmc': tmc,
       'city': city,
@@ -67,15 +70,16 @@ class Apartment_Details {
   factory Apartment_Details.fromMap(Map<String, dynamic> map) {
     return Apartment_Details(
       propertyId: map['propertyId'],
+      mobileNo: map['mobileNo'],
       propertyName: map['propertyName'],
-      pricePerSft: map['pricePerSft'],
+      rentPerMonth: map['rentPerMonth'],
       totalArea: map['totalArea'],
       carpetArea: map['carpetArea'],
-      price: map['price'],
+      advanceRent: map['advanceRent'],
       bedRooms: map['bedRooms'],
       bathRooms: map['bathRooms'],
       balConies: map['balConies'],
-      village: map['village'],
+      houseNo: map['houseNo'],
       colony: map['colony'],
       tmc: map['tmc'],
       city: map['city'],
@@ -86,17 +90,25 @@ class Apartment_Details {
     );
   }
 
+  String generatePropertyId(String stateCode, String districtCode, String tmcCode, int count) {
+    String formattedCount = count.toString().padLeft(10, '0');
+    return '$stateCode$districtCode$tmcCode$formattedCount';
+  }
+
   Future<void> saveToFirestore() async {
-    CollectionReference apartmentCollection = FirebaseFirestore.instance.collection('apartmentdetails');
+    // Get a reference to the 'agriculturelanddetails' collection
+    CollectionReference agricultureLandDetailsCollection =
+    FirebaseFirestore.instance.collection('apartmentdetails');
 
     try {
-      String propertyId = 'APART' + DateTime.now().millisecondsSinceEpoch.toString();
-      Map<String, dynamic> apartmentMap = toMap();
-      apartmentMap['propertyId'] = propertyId; // Use the unique propertyId
-      apartmentMap['propertyType'] = 'ApartmentDetails';
+      // Generate a new document ID or use an existing one
+      String documentId = propertyId.isNotEmpty ? propertyId :
+      agricultureLandDetailsCollection.doc().id;
 
-      DocumentReference docRef = apartmentCollection.doc(propertyId); // Get the DocumentReference
-      await docRef.set(apartmentMap); // Set the data in Firestore
+      // Save the details map to the Firestore document
+      await agricultureLandDetailsCollection
+          .doc(documentId)
+          .set(this.toMap());// Set the data in Firestore
       print("Apartment property successfully added to Firestore with ID: $propertyId");
     } catch (e) {
       print("Failed to add apartment property: $e");
@@ -104,10 +116,13 @@ class Apartment_Details {
   }
 
   // Generate a property ID based on specific criteria
-  String generatePropertyId(String prefix, int count) {
-    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-    return '$prefix$timestamp$count'.padLeft(10, '0');
-  }
+  // String generatePropertyId(String prefix, int count) {
+  //   String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+  //   return '$prefix$timestamp$count'.padLeft(10, '0');
+  // }
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
 
   // Retrieve ApartmentDetails by pincode
   Future<List<Apartment_Details>> retrievePropertiesByPincode(double pincode) async {

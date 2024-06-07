@@ -1,4 +1,4 @@
-// cluster_marker_check.dart
+// landandplot.dart
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -22,7 +22,7 @@ import 'package:landandplot/services/location_service.dart';
 import 'package:landandplot/services/map_service.dart';
 import 'package:landandplot/services/marker_cluster_service.dart';
 import 'package:landandplot/services/property_data_service.dart';
-import 'package:landandplot/screens/signin_screen.dart';
+import 'package:landandplot/screens/login_screen.dart';
 import 'package:landandplot/proeprty_videos_list.dart';
 import 'package:landandplot/services/property_service.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,11 +37,12 @@ import 'home_screen.dart';
 import 'instances/google_maps_api_client.dart';
 import 'models/cluster_item.dart';
 import 'models/map_property_address.dart';
-import 'models/property_address.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:location/location.dart' as loc;
 import 'package:geocoding_platform_interface/src/models/location.dart'
     as geo_location;
+
+import 'models/property_info.dart';
 
 late final double latitude;
 late final double longitude;
@@ -57,14 +58,14 @@ enum CustomMapType {
 
 CustomMapType _currentMapType = CustomMapType.normal;
 
-class ClusterMarkerCheck extends StatefulWidget {
-  const ClusterMarkerCheck({Key? key}) : super(key: key);
+class LandandPlot extends StatefulWidget {
+  const LandandPlot({Key? key}) : super(key: key);
 
   @override
-  _ClusterMarkerCheckState createState() => _ClusterMarkerCheckState();
+  _LandandPlotState createState() => _LandandPlotState();
 }
 
-class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
+class _LandandPlotState extends State<LandandPlot> {
   int _selectedIndex = 0; // Now defined in this state class
 
   final TextEditingController _controller = TextEditingController();
@@ -83,7 +84,7 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
   double _currentZoom = 14.0;
   CameraPosition _initialCameraPosition =
       const CameraPosition(target: LatLng(0, 0));
-  late List<PropertyAddress> addresses; // Declare as a class member
+  late List<PropertyInfo> addresses; // Declare as a class member
   late List<MapPropertyAddress> mapPropertyAddresses = [];
   final FocusScopeNode _focusScopeNode = FocusScopeNode();
   Completer<GoogleMapController> _controllerCompleter =
@@ -123,7 +124,7 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
   MarkerId markerId = MarkerId('marker_id_1'); // Example marker ID
   String imagePath = 'assets/icons/gps.png'; // Path to your asset image
   BitmapDescriptor? customIcon; // Declare customIcon at the class level
-  late Future<List<PropertyAddress>> propertyList;
+  late Future<List<PropertyInfo>> propertyList;
   final PropertyService _propertyService =
       PropertyService(); // Declaration of the service
   late GoogleMapsApiClient _apiClient;
@@ -296,30 +297,28 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
     );
   }
 
-  Future<List<PropertyAddress>> fetchPropertiesFromFirestore() async {
+  Future<List<PropertyInfo>> fetchPropertiesFromFirestore() async {
     var propertiesCollection =
         FirebaseFirestore.instance.collection('properties');
     var snapshots = await propertiesCollection.get();
     return snapshots.docs
-        .map((doc) => PropertyAddress.fromSnapshot(doc))
+        .map((doc) => PropertyInfo.fromSnapshot(doc))
         .toList();
   }
 
-  void _updateMarkers(List<PropertyAddress> properties) async {
-    final markers = await convertPropertiesToMarkers(
-        properties); // Wait for the markers to be ready
+  Future<void> _updateMarkers(List<PropertyInfo> properties) async {
+    final markers = await convertPropertiesToMarkers(properties);  // Wait for the markers to be ready
 
     setState(() {
       _markers.clear();
       for (final marker in markers) {
-        _markers[marker.markerId] =
-            marker; // Assuming _markers is a Map<MarkerId, Marker>
+        _markers[marker.markerId] = marker;  // Assuming _markers is a Map<MarkerId, Marker>
       }
     });
   }
 
   Future<Set<Marker>> convertPropertiesToMarkers(
-      List<PropertyAddress> properties) async {
+      List<PropertyInfo> properties) async {
     var markers = <Marker>{};
     for (var property in properties) {
       var icon = await property.getIcon(); // Ensure icon is loaded
@@ -390,7 +389,7 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
     // Determine the source of property addresses based on whether a searched location is provided
     print("Initializing Fluster:");
 
-    List<PropertyAddress> propertyAddresses;
+    List<PropertyInfo> propertyAddresses;
     if (searchedLocation != null) {
       // Fetch or filter property addresses near the searched location
       propertyAddresses = await fetchPropertyAddressesNearLocation(
@@ -398,17 +397,19 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
     } else {
       // Fetch property addresses from Firestore
       propertyAddresses =
-          await _propertyService.fetchPropertyAddressesFromFirestore(userId);
+          await _propertyService.fetchPropertyInfoesFromFirestore(userId);
     }
 
     // Convert PropertyAddress objects to ClusterItem objects
     List<ClusterItem> clusterItems = propertyAddresses.map((address) {
       return ClusterItem(
-        id: address.propertyId,
+        propertyId: address.propertyId,
         iconPath: '',
         latitude: address.latitude,
         longitude: address.longitude,
         userId: '',
+        price: 0.0
+        , propertyType: '',
         // Set other required fields based on your ClusterItem class
       );
     }).toList();
@@ -452,7 +453,7 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
     print("Madhu Map is ready and markers are set.");
   }
 
-// Assuming this method is within your _ClusterMarkerCheckState
+// Assuming this method is within your _LandandPlotState
 //   Future<List<ClusterItem>> getClusterItems() async {
 //     List<ClusterItem> items = [];
 //     var querySnapshot =
@@ -480,8 +481,7 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
 
   Future<List<ClusterItem>> getClusterItems() async {
     List<ClusterItem> items = [];
-    var querySnapshot =
-        await FirebaseFirestore.instance.collection('properties').get();
+    var querySnapshot = await FirebaseFirestore.instance.collection('properties').get();
 
     for (var doc in querySnapshot.docs) {
       var data = doc.data() as Map<String, dynamic>;
@@ -489,19 +489,18 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
       // Extract latitude and longitude directly.
       double? latitude = data['latitude'];
       double? longitude = data['longitude'];
+      double? price = data['price'];  // Ensure price is defined and correctly typed
 
       // Ensure both latitude and longitude are not null before adding to cluster items.
-      if (latitude != null && longitude != null) {
+      if (latitude != null && longitude != null && price != null) {
         items.add(ClusterItem(
           latitude: latitude,
           longitude: longitude,
-          id: doc.id,
-          iconPath: data['iconPath'] ??
-              'assets/icons/gps.png', // Use default icon if none provided
-          userId: data['userId'] ??
-              '', // Use empty string if userId is not provided
-          price: data['price'].toString(), // Convert price to string
-          // ... add other properties as needed
+          propertyId: doc.id,
+          iconPath: data['iconPath'] ?? 'assets/icons/gps.png',  // Use default icon if none provided
+          userId: data['userId'] ?? '',  // Use empty string if userId is not provided
+          price: price,  // Correctly typed price
+          propertyType: data['propertyType'] ?? '',  // Ensure propertyType is provided or defaulted
         ));
       }
     }
@@ -525,15 +524,16 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
         return ClusterItem(
           latitude: latitude,
           longitude: longitude,
-          id: 'cluster_${cluster.id}',
+          propertyId: 'cluster_${cluster.id}',
           isCluster: true,
           clusterId: cluster.id,
           pointsSize: cluster.pointsSize,
           // other properties as necessary...
           childMarkerId: '',
-          price: '',
+          price: 0.0,
           userId: '',
           iconPath: '',
+          propertyType: '',
         );
       },
     );
@@ -580,7 +580,7 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
       print("Clusters count at zoom level $zoom: ${clusters.length}");
 
       for (var cluster in clusters) {
-        final markerId = MarkerId(cluster.id.toString());
+        final markerId = MarkerId(cluster.propertyId.toString());
 
         if (cluster.isCluster) {
           // Handling cluster marker
@@ -603,7 +603,7 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
             position: LatLng(cluster.latitude, cluster.longitude),
             icon: BitmapDescriptor
                 .defaultMarker, // Use default marker for individuals
-            onTap: () => print("Tapped on individual marker ${cluster.id}"),
+            onTap: () => print("Tapped on individual marker ${cluster.propertyId}"),
           );
         }
       }
@@ -799,13 +799,13 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
     int currentZoom = 12; // Example current zoom level
     return fluster.clusters(bbox, currentZoom).map((cluster) {
       return Marker(
-        markerId: MarkerId(cluster.id.toString()),
+        markerId: MarkerId(cluster.propertyId.toString()),
         position: LatLng(cluster.latitude, cluster.longitude),
         icon: cluster.icon,
         infoWindow: InfoWindow(
           title: cluster.isCluster
               ? '${cluster.pointsSize} properties'
-              : cluster.price,
+              : cluster.price.toString(),  // Convert price to String
           snippet: cluster.isCluster ? 'Cluster' : 'Property',
         ),
         // Set the onTap function if necessary
@@ -820,9 +820,9 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
     print("Madhu = I am in fetchAndPrepareMarkers called");
     // Assume fetchPropertyAddresses() is asynchronous and returns a Future<List<PropertyAddress>>
     var propertyAddresses =
-        await _propertyService.fetchPropertyAddressesFromFirestore(userId);
+        await _propertyService.fetchPropertyInfoesFromFirestore(userId);
     // Filter property addresses if a nearLocation is provided
-    List<PropertyAddress> filteredAddresses = nearLocation != null
+    List<PropertyInfo> filteredAddresses = nearLocation != null
         ? propertyAddresses.where((address) {
             // Calculate distance from the address to nearLocation
             double distance = geolocator.Geolocator.distanceBetween(
@@ -853,13 +853,13 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
     return mapPropertyAddresses; // Return the prepared list of
   }
 
-  Future<List<PropertyAddress>> fetchPropertyAddressesNearLocation({
+  Future<List<PropertyInfo>> fetchPropertyAddressesNearLocation({
     required LatLng searchedLocation,
     double radiusInKm = 5.0,
   }) async {
-    List<PropertyAddress> allPropertyAddresses =
-        await _propertyService.fetchPropertyAddressesFromFirestore(userId);
-    List<PropertyAddress> filteredAddresses =
+    List<PropertyInfo> allPropertyAddresses =
+        await _propertyService.fetchPropertyInfoesFromFirestore(userId);
+    List<PropertyInfo> filteredAddresses =
         allPropertyAddresses.where((address) {
       // Use the aliased geolocator class
       double distance = geolocator.Geolocator.distanceBetween(
@@ -880,11 +880,13 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
     return addresses.map((address) {
       // Assuming MapPropertyAddress has properties like id, position.latitude, position.longitude, and icon
       return ClusterItem(
-        id: address.propertyId, // Assuming propertyId is the equivalent of id
+        propertyId: address.propertyId, // Assuming propertyId is the equivalent of id
         latitude: address.position.latitude,
         longitude: address.position.longitude,
         // icon: address.icon,
-        userId: '', iconPath: '', // Default or compute as necessary
+        userId: '', iconPath: '',
+        price: 0.0,
+        propertyType: '', // Default or compute as necessary
       );
     }).toList();
   }
@@ -1314,7 +1316,7 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
       case 0:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
         );
         break;
       case 1:
@@ -1343,7 +1345,7 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
         // Navigate to Search Screen
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => SigninScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
         );
         break;
     }
@@ -1352,13 +1354,13 @@ class _ClusterMarkerCheckState extends State<ClusterMarkerCheck> {
   Widget build(BuildContext context) {
     Set<Marker> markers = Set.from(listMarkers(_onMarkerTap));
     final List<Widget> _widgetOptions = <Widget>[
-      HomeScreen(),
+      HomeScreen(userId: '',),
       ProfilePage(),
       FavoritesPage(
         userId: userId,
       ),
       PropertyVideosList(),
-      SigninScreen()
+      LoginScreen()
     ];
     return GestureDetector(
       onTap: () {

@@ -1,3 +1,42 @@
+//buildscript {
+//    ext.kotlin_version = '1.8.22' // Check for the latest stable version
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
+//
+//    dependencies {
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath 'com.android.tools.build:gradle:7.3.1'
+//        // classpath 'com.android.tools.build:gradle:7.2.0' // Use the latest compatible version
+//        // Remove the outdated Android Gradle plugin version
+//        // classpath 'com.google.gms:google-services:4.4.0' // Use the latest version
+//        classpath 'com.google.gms:google-services:4.3.13' // Updated to a more recent version
+//
+//    }
+//}
+//
+//allprojects {
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
+//}
+//
+//rootProject.buildDir = '../build'
+//subprojects {
+//    project.buildDir = "${rootProject.buildDir}/${project.name}"
+//}
+//subprojects {
+//    project.evaluationDependsOn(':app')
+//}
+//
+//tasks.register("clean", Delete) {
+//    delete rootProject.buildDir
+//}
+
+
+
 buildscript {
     ext.kotlin_version = '1.8.22' // Check for the latest stable version
     repositories {
@@ -7,14 +46,18 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.android.tools.build:gradle:7.3.1'
-        // classpath 'com.android.tools.build:gradle:7.2.0' // Use the latest compatible version
+        classpath 'com.android.tools.build:gradle:7.2.2' // Use the latest compatible version
         // Remove the outdated Android Gradle plugin version
         // classpath 'com.google.gms:google-services:4.4.0' // Use the latest version
-        classpath 'com.google.gms:google-services:4.3.13' // Updated to a more recent version
+        classpath 'com.google.gms:google-services:4.4.2' // Updated to a more recent version
 
     }
 }
+
+//plugins {
+//    // Add the dependency for the Google services Gradle plugin
+//    id 'com.google.gms.google-services' version '4.4.0' apply false // Ensure this is the latest version
+//}
 
 allprojects {
     repositories {
@@ -27,6 +70,7 @@ rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
 subprojects {
     project.evaluationDependsOn(':app')
 }
@@ -34,3 +78,5 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+//// At the bottom of the file, ensure to apply the Google Services plugin
+//apply plugin: 'com.google.gms.google-services'

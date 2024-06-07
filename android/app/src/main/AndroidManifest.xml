@@ -8,16 +8,16 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <queries>
-        <!-- If your app opens Facebook URLs -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />
         </intent>
-        <!-- If your app checks installed packages -->
         <package android:name="com.facebook.katana" />
-        <!-- If your app checks for a particular service -->
         <intent>
             <action android:name="com.facebook.orca.provider.MessengerPlatformProvider" />
         </intent>
@@ -26,18 +26,22 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:label="landandplot"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         tools:ignore="Instantiatable"
-        tools:overrideLibrary="dev.fluttercommunity.plus.packageinfo">
+        tools:overrideLibrary="dev.fluttercommunity.plus.packageinfo"
+        android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true">
 
-        <!-- Add the following line inside the <application> element -->
         <meta-data
             android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
-            android:value="true" /> <!-- or "false" as needed -->
+            android:value="true" />
 
         <activity
             android:name="com.mmsoft.landandplot.MainActivity"
@@ -46,12 +50,7 @@
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize"
-            tools:ignore="Instantiatable">
-            <!-- Specifies an Android theme to apply to this Activity as soon as
-                 the Android process has started. This theme is visible to the user
-                 while the Flutter UI initializes. After that, this theme continues
-                 to determine the Window background behind the Flutter UI. -->
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme"/>
@@ -60,6 +59,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="flutterEmbedding"
             android:value="2"/>
@@ -70,7 +70,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"
             tools:replace="android:value" />
-        <meta-data android:name="com.facebook.sdk.ClientToken"
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token"/>
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -87,7 +88,10 @@
             </intent-filter>
         </activity>
 
-        <!-- Don't delete the meta-data below.
-             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            tools:ignore="MissingClass" />
     </application>
 </manifest>

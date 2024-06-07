@@ -1,433 +1,188 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_google_places/flutter_google_places.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:google_maps_webservice/places.dart';
-// import 'package:geolocator/geolocator.dart';
-// import 'custom_drawer.dart';
-//
-//
-// const kGoogleApiKey = "AIzaSyCXMU535-AIzaSyBzXWJe784Qh5lvTuRgYeab7_zcTcfdhdc";
-//
-// final GoogleMapsPlaces places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
-// double? lat;
-// double? lng;
-//
-// class HomeScreen extends StatefulWidget {
-//   const HomeScreen({Key? key}) : super(key: key);
-//
-//   @override
-//   _HomeScreenState createState() => _HomeScreenState();
-// }
-//
-// class _HomeScreenState extends State<HomeScreen> {
-//   GoogleMapController? _mapController;
-//
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _determinePosition();
-//   }
-//
-//   void _locateUser() async {
-//     var position = await _determinePosition();
-//     _mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-//       target: LatLng(position.latitude, position.longitude),
-//       zoom: 14.0,
-//     )));
-//   }
-//
-//   Future<Position> _determinePosition() async {
-//     bool serviceEnabled;
-//     LocationPermission permission;
-//
-//     // Test if location services are enabled.
-//     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-//     if (!serviceEnabled) {
-//       // Location services are not enabled, handle accordingly.
-//       return Future.error('Location services are disabled.');
-//     }
-//
-//     permission = await Geolocator.checkPermission();
-//     if (permission == LocationPermission.denied) {
-//       permission = await Geolocator.requestPermission();
-//       if (permission == LocationPermission.denied) {
-//         // Permissions are denied, handle accordingly.
-//         throw Exception('Location permissions are denied');
-//       }
-//     }
-//
-//     if (permission == LocationPermission.deniedForever) {
-//       // Permissions are denied forever, handle accordingly.
-//       throw Exception(
-//           'Location permissions are permanently denied, we cannot request permissions.');
-//     }
-//
-//     // When we reach here, permissions are granted and we can continue accessing the position of the device.
-//     return await Geolocator.getCurrentPosition(
-//         desiredAccuracy: LocationAccuracy.high);
-//   }
-//
-//   // LatLng? lastMapPosition;
-//   void _onMapCreated(GoogleMapController controller) {
-//     _mapController = controller; // Assign the controller to _mapController
-//   }
-//
-//   Future<void> _moveCameraToPosition(LatLng position) async {
-//     if (_mapController == null) {
-//       print('Map controller is not initialized');
-//       return;
-//     }
-//     await _mapController!.animateCamera(
-//       CameraUpdate.newCameraPosition(
-//         CameraPosition(
-//           target: position,
-//           zoom: 14.0,
-//         ),
-//       ),
-//     );
-//   }
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           elevation: 0.0, // Remove elevation by setting it to 0.0
-//           iconTheme: IconThemeData(color: Colors.black, size: 40.0),
-//           // Change icon color to black and adjust size
-//           backgroundColor: Colors.white, // Set the background color to white
-//           titleSpacing: 0.0, // Adjust the spacing here as needed
-//           title: Text(
-//             'LANDANDPLOT',
-//             style: TextStyle(
-//               color: Colors.green, // Set the text color to black
-//               fontSize: 30, // Adjust the font size as needed
-//               fontWeight: FontWeight.w800, // Make the text bold
-//             ),
-//           ),
-//         ),
-//         drawer: CustomDrawer(),
-//
-//         floatingActionButton: FloatingActionButton(
-//           onPressed: _locateUser,
-//           tooltip: 'Locate Me',
-//           child: Icon(Icons.my_location),
-//         )
-//     );
-//   }
-//
-//   Future<void> _handleSearchPress() async {
-//     try {
-//       Prediction? p = await PlacesAutocomplete.show(
-//         context: context,
-//         apiKey: kGoogleApiKey,
-//         mode: Mode.overlay, // or Mode.fullscreen
-//         language: "en",
-//         components: [Component(Component.country, "us")],
-//       );
-//
-//       if (p != null) {
-//         await displayPrediction(p);
-//       }
-//     } catch (e) {
-//       // Log the error
-//       print("Error occurred while showing PlacesAutocomplete: $e");
-//       // You may want to display a dialog or a toast to the user here
-//     }
-//   }
-//
-//   Future<void> displayPrediction(Prediction p) async {
-//     if (p.placeId == null) {
-//       print('No placeId for the prediction');
-//       return;
-//     }
-//
-//     try {
-//       PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
-//
-//       if (detail.status == "OK" && detail.result.geometry?.location != null) {
-//         lat = detail.result.geometry!.location.lat;
-//         lng = detail.result.geometry!.location.lng;
-//         double? newLat;
-//         double? newLng;
-//         if (newLat == null || newLng == null) {
-//           print('Error: Retrieved location is null.');
-//           return;
-//         }
-//
-//         setState(() {
-//           lat = newLat;
-//           lng = newLng;
-//         });
-//
-//         // Debug: Print out the coordinates to make sure they are correct
-//         print('Navigating to coordinates: $lat, $lng');
-//         // Use the lat and lng to do something, like animating the map camera
-//
-//
-//         // Animate the map to the new position
-//         _mapController?.animateCamera(
-//           CameraUpdate.newCameraPosition(
-//             CameraPosition(
-//               target: LatLng(newLat, newLng),
-//               zoom: 15.0,
-//             ),
-//           ),
-//         );
-//       } else {
-//         // Handle the error, the status is not OK
-//         print('Error retrieving place details: ${detail.status}');
-//       }
-//     } catch (e) {
-//       // Handle the exception, this might be due to network issues or authorization errors
-//       print('An error occurred while retrieving place details: $e');
-//     }
-//   }
-// }
-//
-// class CustomMapBarScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Custom Map Bar Screen'),
-//         leading: IconButton(
-//           icon: Icon(Icons.arrow_back),
-//           onPressed: () {
-//             // Return to the previous screen
-//             // (most likely HomeScreen if that's where you came from)
-//             Navigator.pop(context);
-//           },
-//         ),
-//       ),
-//       body: Center(
-//         child: Text('This is the Custom Map Bar screen'),
-//       ),
-//     );
-//   }
-// }
-
-// home_screen.dart
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:landandplot/profile_page.dart';
-import 'package:landandplot/screens/signin_screen.dart';
-import 'package:landandplot/single_city.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:landandplot/proeprty_videos_list.dart';
-import 'cluster_marker_check.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:landandplot/property_details_display_page.dart';
+import 'package:landandplot/screens/login_screen.dart';
+import 'package:location/location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'custom_drawer.dart';
 import 'favourites_page.dart';
-
-// class PropertyList extends StatelessWidget {
-//   const PropertyList({Key? key}) : super(key: key);
+import 'landandplot.dart';
+import 'profile_page.dart';
+import 'single_city.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, required this.userId}) : super(key: key);
+
+  final String userId;
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   late List<bool> isHovering;
-  int _selectedIndex = 0; // Now defined in this state class
+  int _selectedIndex = 0;
   String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+  Location location = Location();
+  List<Map<String, dynamic>> cityList = [];
+  GoogleMapController? _mapController;
+  Set<Marker> _markers = {};
+  String selectedCategory = 'All';
+  Map<String, dynamic>? _selectedMarkerDetails;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the hover states to false for each item in the list
-    isHovering = List.filled(cityList.length, false);
+    isHovering = [];
+    _getCurrentLocation();
   }
 
-  final List<Map<String, dynamic>> cityList = const [
-    {
-      "address": "Jaipur the pink city",
-      "id": "jaipur_01",
-      "image":
-          "https://i.pinimg.com/originals/b7/3a/13/b73a132e165978fa07c6abd2879b47a6.png",
-      "lat": 26.922070,
-      "lng": 75.778885,
-      "name": "Jaipur India",
-      "phone": "7014333352",
-      "pincode": "302001",
-      "region": "South Asia",
-      // "subImages": [
-      //   // "https://pixabay.com/photos/temple-women-pillar-india-jaipur-3370930/",
-      //   "https://pixabay.com/photos/jaipur-rajasthan-india-history-3670085/",
-      //   "https://pixabay.com/photos/amber-palace-jaipur-rajasthan-653180/",
-      //   "https://pixabay.com/photos/gaitore-ki-chhatriyan-india-jaipur-3244463/",
-      //   "https://pixabay.com/photos/jal-mahal-jaipur-sunset-water-4109105/",
-      // ],
-    },
-    {
-      "address": "Hyderabad",
-      "id": "Hyd_Ikea_03",
-      "image":
-          "https://c8.alamy.com/comp/P9NWXE/swedish-furniture-giant-ikea-will-open-its-first-store-in-india-on-august-092018-in-the-southern-city-of-hyderabadit-was-scheduled-to-open-on-july-P9NWXE.jpg",
-      "lat": 17.43927,
-      "lng": 78.37561,
-      "name": "Ikea Hyderabad",
-      "phone": "9959788005",
-      "pincode": "500032",
-      "region": "South India"
-    },
-    {
-      "address": "New Delhi capital of india",
-      "id": "delhi_02",
-      "image":
-          "https://upload.wikimedia.org/wikipedia/commons/9/96/Delhi_Red_fort.jpg",
-      "lat": 28.644800,
-      "lng": 77.216721,
-      "name": "Delhi City India",
-      "phone": "7014333352",
-      "pincode": "110001",
-      "region": "South Asia"
-    },
-    {
-      "address": "Mumbai City",
-      "id": "mumbai_03",
-      "image":
-          "https://upload.wikimedia.org/wikipedia/commons/7/7e/Mumbai_Taj.JPG",
-      "lat": 19.076090,
-      "lng": 72.877426,
-      "name": "Mumbai City India",
-      "phone": "400005",
-      "region": "South Asia"
-    },
-    {
-      "address": "Udaipur City",
-      "id": "udaipur_04",
-      "image":
-          "https://upload.wikimedia.org/wikipedia/commons/6/6f/Evening_view%2C_City_Palace%2C_Udaipur.jpg",
-      "lat": 24.571270,
-      "lng": 73.691544,
-      "name": "Udaipur City India",
-      "phone": "313003",
-      "region": "South Asia"
-    },
-    {
-      "address": "Jaipur the pink city",
-      "id": "jaipur_01",
-      "image":
-          "https://i.pinimg.com/originals/b7/3a/13/b73a132e165978fa07c6abd2879b47a6.png",
-      "lat": 26.922070,
-      "lng": 75.778885,
-      "name": "Jaipur India",
-      "phone": "7014333352",
-      "pincode": "302001",
-      "region": "South Asia"
-    },
-    {
-      "address": "Hyderabad",
-      "id": "Hyd_Ikea_03",
-      "image":
-          "https://c8.alamy.com/comp/P9NWXE/swedish-furniture-giant-ikea-will-open-its-first-store-in-india-on-august-092018-in-the-southern-city-of-hyderabadit-was-scheduled-to-open-on-july-P9NWXE.jpg",
-      "lat": 17.43927,
-      "lng": 78.37561,
-      "name": "Ikea Hyderabad",
-      "phone": "9959788005",
-      "pincode": "500032",
-      "region": "South India"
-    },
-    {
-      "address": "New Delhi capital of india",
-      "id": "delhi_02",
-      "image":
-          "https://upload.wikimedia.org/wikipedia/commons/9/96/Delhi_Red_fort.jpg",
-      "lat": 28.644800,
-      "lng": 77.216721,
-      "name": "Delhi City India",
-      "phone": "7014333352",
-      "pincode": "110001",
-      "region": "South Asia"
-    },
-    {
-      "address": "Mumbai City",
-      "id": "mumbai_03",
-      "image":
-          "https://upload.wikimedia.org/wikipedia/commons/7/7e/Mumbai_Taj.JPG",
-      "lat": 19.076090,
-      "lng": 72.877426,
-      "name": "Mumbai City India",
-      "phone": "400005",
-      "region": "South Asia"
-    },
-    {
-      "address": "Udaipur City",
-      "id": "udaipur_04",
-      "image":
-          "https://upload.wikimedia.org/wikipedia/commons/6/6f/Evening_view%2C_City_Palace%2C_Udaipur.jpg",
-      "lat": 24.571270,
-      "lng": 73.691544,
-      "name": "Udaipur City India",
-      "phone": "313003",
-      "region": "South Asia"
-    },
-    {
-      "address": "Jaipur the pink city",
-      "id": "jaipur_01",
-      "image":
-          "https://i.pinimg.com/originals/b7/3a/13/b73a132e165978fa07c6abd2879b47a6.png",
-      "lat": 26.922070,
-      "lng": 75.778885,
-      "name": "Jaipur India",
-      "phone": "7014333352",
-      "pincode": "302001",
-      "region": "South Asia"
-    },
-    {
-      "address": "Hyderabad",
-      "id": "Hyd_Ikea_03",
-      "image":
-          "https://c8.alamy.com/comp/P9NWXE/swedish-furniture-giant-ikea-will-open-its-first-store-in-india-on-august-092018-in-the-southern-city-of-hyderabadit-was-scheduled-to-open-on-july-P9NWXE.jpg",
-      "lat": 17.43927,
-      "lng": 78.37561,
-      "name": "Ikea Hyderabad",
-      "phone": "9959788005",
-      "pincode": "500032",
-      "region": "South India"
-    },
-    {
-      "address": "New Delhi capital of india",
-      "id": "delhi_02",
-      "image":
-          "https://upload.wikimedia.org/wikipedia/commons/9/96/Delhi_Red_fort.jpg",
-      "lat": 28.644800,
-      "lng": 77.216721,
-      "name": "Delhi City India",
-      "phone": "7014333352",
-      "pincode": "110001",
-      "region": "South Asia"
-    },
-    {
-      "address": "Mumbai City",
-      "id": "mumbai_03",
-      "image":
-          "https://upload.wikimedia.org/wikipedia/commons/7/7e/Mumbai_Taj.JPG",
-      "lat": 19.076090,
-      "lng": 72.877426,
-      "name": "Mumbai City India",
-      "phone": "400005",
-      "region": "South Asia"
-    },
-    {
-      "address": "Udaipur City",
-      "id": "udaipur_04",
-      "image":
-          "https://upload.wikimedia.org/wikipedia/commons/6/6f/Evening_view%2C_City_Palace%2C_Udaipur.jpg",
-      "lat": 24.571270,
-      "lng": 73.691544,
-      "name": "Udaipur City India",
-      "phone": "313003",
-      "region": "South Asia"
+  void _getCurrentLocation() async {
+    final locData = await location.getLocation();
+    if (locData.latitude != null && locData.longitude != null) {
+      _fetchPropertiesNearby(locData.latitude!, locData.longitude!);
+      _updateMapLocation(locData.latitude!, locData.longitude!);
     }
-  ];
+  }
 
-  getDetails(Map singleCityData, BuildContext context) {
-    print('singleCityData');
+  void _fetchPropertiesNearby(double lat, double lng) async {
+    try {
+      final CollectionReference collectionReference =
+      FirebaseFirestore.instance.collection('properties');
+
+      QuerySnapshot querySnapshot = await collectionReference.get();
+      List<DocumentSnapshot> documents = querySnapshot.docs;
+
+      setState(() {
+        cityList = documents.where((doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          double? docLat = data['latitude'];
+          double? docLng = data['longitude'];
+          if (docLat != null && docLng != null) {
+            double distance = _calculateDistance(lat, lng, docLat, docLng);
+            return distance <= 10; // Filter properties within 10km radius
+          }
+          return false;
+        }).map((doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          return {
+            "address": data['address'] ?? 'No address provided',
+            "id": doc.id,
+            "image": data['imageUrl'] ?? 'https://via.placeholder.com/300',
+            "lat": data['latitude'],
+            "lng": data['longitude'],
+            "name": data['propertyType'] ?? 'No name provided',
+            "phone": data['phone'] ?? 'No phone number provided',
+            "pincode": data['pincode'] ?? 'No pincode provided',
+            "region": data['region'] ?? 'No region provided',
+            "price": data['price'] ?? 'No price provided',
+            "bedrooms": data['bedrooms'] ?? 0,
+            "bathrooms": data['bathrooms'] ?? 0,
+            "sqft": data['sqft'] ?? 0,
+            "daysAgo": data['daysAgo'] ?? 0,
+            "subImages": data['subImages'] ?? [],
+          };
+        }).toList();
+        isHovering = List.filled(cityList.length, false);
+        _updateMarkers();
+      });
+    } catch (e) {
+      print('Error fetching properties: $e');
+    }
+  }
+
+  void _updateMarkers() {
+    Set<Marker> newMarkers = {};
+    for (var property in cityList) {
+      final marker = Marker(
+        markerId: MarkerId(property['id']),
+        position: LatLng(property['lat'], property['lng']),
+        infoWindow: InfoWindow(
+          title: property['name'],
+          snippet: property['address'],
+        ),
+        onTap: () {
+          setState(() {
+            _selectedMarkerDetails = property;
+          });
+        },
+      );
+      newMarkers.add(marker);
+    }
+    setState(() {
+      _markers = newMarkers;
+    });
+  }
+
+  void _updateMapLocation(double lat, double lng) {
+    _mapController
+        ?.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14));
+  }
+
+  double _calculateDistance(
+      double startLat, double startLng, double endLat, double endLng) {
+    const double earthRadius = 6371; // Earth's radius in kilometers
+    double dLat = _degreeToRadian(endLat - startLat);
+    double dLng = _degreeToRadian(endLng - startLng);
+    double a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(_degreeToRadian(startLat)) *
+            cos(_degreeToRadian(endLat)) *
+            sin(dLng / 2) *
+            sin(dLng / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    double distance = earthRadius * c;
+    return distance;
+  }
+
+  double _degreeToRadian(double degree) {
+    return degree * pi / 180;
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    switch (_selectedIndex) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const HomeScreen(
+                userId: '',
+              )),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ProfilePage()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FavoritesPage(userId: userId)),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LandandPlot()),
+        );
+        break;
+      case 4:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+        break;
+    }
+  }
+
+  void getDetails(Map<String, dynamic> singleCityData, BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -438,77 +193,30 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _onItemTapped(int index) {
-    print('Bottom nav item tapped: $index'); // Debug: print the tapped index
-    setState(() {
-      _selectedIndex = index;
-    });
-    switch (_selectedIndex) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-        break;
-      case 1:
-        // Navigate to Profile Screen  ProfilePage
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => ProfilePage()),
-        );
-        break;
-      case 2:
-        // Navigate to Favorites Screen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => FavoritesPage(userId: userId)),
-        );
-        break;
-      case 3:
-        // Navigate to Videos Screen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => PropertyVideosList()),
-        );
-        break;
-      case 4:
-        // Navigate to Search Screen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SigninScreen()),
-        );
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0, // Remove elevation by setting it to 0.0
+        elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black, size: 40.0),
-        // Change icon color to black and adjust size
-        backgroundColor: Colors.white, // Set the background color to white
-        titleSpacing: 0.0, // Adjust the spacing here as needed
+        backgroundColor: Colors.white,
+        titleSpacing: 0.0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'LANDANDPLOT',
+            const Text(
+              'RENTLOAPP',
               style: TextStyle(
-                color: Colors.green, // Set the text color to black
-                fontSize: 30, // Adjust the font size as needed
-                fontWeight: FontWeight.w800, // Make the text bold
+                color: Colors.blue,
+                fontSize: 30,
+                fontWeight: FontWeight.w800,
               ),
             ),
             TextButton(
               onPressed: () {
-                // Use Navigator to push to the ClusterMarkerCheck route
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const ClusterMarkerCheck()),
+                  MaterialPageRoute(builder: (context) => const LandandPlot()),
                 );
               },
               child: Text(
@@ -524,53 +232,162 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       drawer: CustomDrawer(),
-      body: ListView.builder(
-        itemCount: cityList.length,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              MouseRegion(
-                onHover: (PointerHoverEvent event) {
-                  print('Hovering over item: $index');
-                  setState(() {
-                    isHovering[index] = true;
-                  });
-                },
-                onExit: (PointerExitEvent event) {
-                  print('Mouse exited item: $index');
-                  setState(() {
-                    isHovering[index] = false;
-                  });
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  transform: Matrix4.identity()
-                    ..scale(isHovering[index] ? 1.05 : 1.0),
-                  child: GestureDetector(
-                    onTap: () => getDetails(cityList[index], context),
-                    child: Card(
-                      elevation: isHovering[index]
-                          ? 10
-                          : 2, // Change elevation on hover
-                      margin: EdgeInsets.zero,
-                      child: CachedNetworkImage(
-                        imageUrl: cityList[index]['image'],
-                        height: 250,
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                        placeholder: (context, url) =>
-                            Container(color: Colors.grey),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                GoogleMap(
+                  initialCameraPosition: const CameraPosition(
+                    target: LatLng(20.5937, 78.9629), // Center of India
+                    zoom: 5,
+                  ),
+                  markers: _markers,
+                  onMapCreated: (GoogleMapController controller) {
+                    _mapController = controller;
+                    _getCurrentLocation();
+                  },
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 250,
+                    child: ListView.builder(
+                      itemCount: cityList.length,
+                      itemBuilder: (context, index) {
+                        final property = cityList[index];
+                        return Card(
+                          margin: EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.network(property['image'] ?? ''), // Replace with property image URL
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '\$${property['price'] ?? ''}/mo', // Replace with property price
+                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text(
+                                  '${property['bedrooms']} bds | ${property['bathrooms']} ba | ${property['sqft']} sqft', // Replace with property details
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  property['address'] ?? '', // Replace with property address
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '${property['daysAgo']} days ago', // Replace with property date
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
-                //const SizedBox(height: 10),
+                if (_selectedMarkerDetails != null)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PropertyDetailsDisplayPage(
+                              propertyId: _selectedMarkerDetails!['id'],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        color: Colors.white,
+                        child: Stack(
+                          children: [
+                            _selectedMarkerDetails!['image'] != null
+                                ? Image.network(
+                              _selectedMarkerDetails!['image'],
+                              height: 300.0,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            )
+                                : Container(
+                              height: 300.0,
+                              width: double.infinity,
+                              color: Colors.grey[300], // Placeholder background color
+                              child: Center(
+                                child: Text(
+                                  'No Image Available',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                color: Colors.black.withOpacity(0.5),
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Rent: ₹${_selectedMarkerDetails!['price']}',
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.0),
+                                    Text(
+                                      'Bedrooms: ${_selectedMarkerDetails!['bedrooms']}',
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          Container(
+            height: 50,
+            color: Colors.blue,
+            child: const Center(
+              child: Text(
+                'Advertisement',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ],
-          );
-        },
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: SafeArea(
         child: BottomNavigationBar(
@@ -599,54 +416,9 @@ class _HomeScreenState extends State<HomeScreen> {
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.blue[700],
           unselectedItemColor: Colors.blue[500],
-          // Add this
           onTap: _onItemTapped,
         ),
       ),
     );
   }
 }
-
-
-// void _onItemTapped(int index) {
-//   print('Bottom nav item tapped: $index'); // Debug: print the tapped index
-//   setState(() {
-//     _selectedIndex = index;
-//   });
-//   switch (_selectedIndex) {
-//     case 0:
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (context) => HomeScreen()),
-//       );
-//       break;
-//     case 1:
-//     // Navigate to Profile Screen  ProfilePage
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (context) => ProfilePage()),
-//       );
-//       break;
-//     case 2:
-//     // Navigate to Favorites Screen
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (context) => FavoritesPage()),
-//       );
-//       break;
-//     case 3:
-//     // Navigate to Videos Screen
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (context) => VideoListPage()),
-//       );
-//       break;
-//     case 4:
-//     // Navigate to Search Screen
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (context) => SigninScreen()),
-//       );
-//       break;
-//   }
-// }

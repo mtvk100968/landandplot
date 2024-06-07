@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +45,7 @@ class FullFurnitureCard extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 8.0),
                   child: Text(
                     'Address of Property',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
                 TextFormField(

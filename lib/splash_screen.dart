@@ -103,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Set a timer to go to the next screen after some time
     Timer(Duration(seconds: 5), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => HomeScreen())); // Replace with your main screen
+          builder: (_) => HomeScreen(userId: '',))); // Replace with your main screen
     });
   }
 

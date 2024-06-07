@@ -6,7 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:landandplot/privacy_settings_page.dart';
-import 'package:landandplot/screens/signin_screen.dart';
+import 'package:landandplot/property_reg_by_user.dart';
+import 'package:landandplot/screens/login_screen.dart';
 import 'package:landandplot/screens/signup_screen.dart';
 import 'package:landandplot/services/places_service.dart';
 import 'package:landandplot/proeprty_videos_list.dart';
@@ -15,11 +16,10 @@ import 'add_property_by_lap.dart';
 import 'bottom_nav_bar.dart';
 import 'favourites_page.dart';
 import 'google_places_auto_complete.dart';
-import 'cluster_marker_check.dart';
 import 'home_screen.dart';
+import 'landandplot.dart';
 import 'my_dynamic_screen.dart';
 import 'property_list.dart';
-import 'screens/property_reg.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -54,6 +54,7 @@ Future<void> runShaderWarmUp() async {
   await picture.toImage(
       1024, 1024); // Await the image to ensure the shaders are compiled
 }
+
 
 class ShaderWarmUpPainter extends CustomPainter {
   @override
@@ -96,15 +97,15 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splash': (context) => SplashScreen(), // Define splash screen route
         '/': (context) =>
-            const HomeScreen(), // HomeScreen is now the main screen after splash
+            const HomeScreen(userId: '',), // HomeScreen is now the main screen after splash
         '/addpropertybylap': (context) => AddPropertyByLap(),
-        '/loginscreen': (context) => SigninScreen(),
+        '/loginscreen': (context) => LoginScreen(),
         '/signup': (context) => SignUpScreen(),
-        '/clustermarkercheck': (context) => ClusterMarkerCheck(),
+        '/clustermarkercheck': (context) => LandandPlot(),
         '/placessautocomplete': (context) => GooglePlacesAutoComplete(
               placesService: placesService,
             ), // Remove 'const' here
-        '/propertyreg': (context) => PropertyReg(),
+        '/propertyreg': (context) => PropertyRegByUser(),
         '/bottomnavbar': (context) =>
             BottomNavBar(placesService: placesService, userId: userId),
         '/videolistpage': (context) => PropertyVideosList(),

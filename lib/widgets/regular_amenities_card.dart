@@ -1,41 +1,34 @@
-// // extraamenities_card.dart
+// // amenities_card.dart
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 //
-// class ExtraAminitiesCard extends StatelessWidget {
-//   final TextEditingController clubHouseaController;
-//   final TextEditingController childrenParkController;
-//   final TextEditingController walkingPathController;
-//   final TextEditingController joggingParkController;
-//   final TextEditingController spaController;
-//   final TextEditingController swimmingPoolController;
-//   final TextEditingController indoreGamesController;
-//   final TextEditingController groceryShopController;
-//   final TextEditingController sportsGroundController;
-//   final TextEditingController yogaCenterController;
-//   final TextEditingController shuttleCourtController;
-//   final TextEditingController playSchoolController;
-//   final TextEditingController shuttleController;
-//   final TextEditingController fireSensorController;
-//
+// class AminitiesCard extends StatelessWidget {
+//   final TextEditingController internetController;
+//   final TextEditingController cctvController;
+//   final TextEditingController powerBackupController;
+//   final TextEditingController fireExtinguishersController;
+//   final TextEditingController carParkinController;
+//   final TextEditingController gasPipelineController;
+//   final TextEditingController intercomController;
+//   final TextEditingController securityController;
+//   final TextEditingController gymController;
+//   // final TextEditingController dWasherController;
+//   // final TextEditingController wachineController;
 //   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 //
-//   ExtraAminitiesCard({
+//   AminitiesCard({
 //     Key? key,
-//     required this.clubHouseaController,
-//     required this.childrenParkController,
-//     required this.walkingPathController,
-//     required this.joggingParkController,
-//     required this.spaController,
-//     required this.swimmingPoolController,
-//     required this.indoreGamesController,
-//     required this.groceryShopController,
-//     required this.sportsGroundController,
-//     required this.yogaCenterController,
-//     required this.shuttleCourtController,
-//     required this.playSchoolController,
-//     required this.shuttleController,
-//     required this.fireSensorController,
+//     required this.internetController,
+//     required this.cctvController,
+//     required this.powerBackupController,
+//     required this.fireExtinguishersController,
+//     required this.carParkinController,
+//     required this.gasPipelineController,
+//     required this.intercomController,
+//     required this.securityController,
+//     required this.gymController,
+//     // required this.dWasherController,
+//     // required this.wachineController,
 //   }) : super(key: key);
 //
 //   @override
@@ -57,7 +50,7 @@
 //                   ),
 //                 ),
 //                 TextFormField(
-//                   controller: clubHouseaController,
+//                   controller: internetController,
 //                   decoration: InputDecoration(labelText: 'Village name'),
 //                   validator: (value) {
 //                     if (value == null || value.isEmpty) {
@@ -67,7 +60,7 @@
 //                   },
 //                 ),
 //                 TextFormField(
-//                   controller: childrenParkController,
+//                   controller: cctvController,
 //                   decoration: InputDecoration(labelText: 'Colony name'),
 //                   validator: (value) {
 //                     if (value == null || value.isEmpty) {
@@ -77,7 +70,7 @@
 //                   },
 //                 ),
 //                 TextFormField(
-//                   controller: walkingPathController,
+//                   controller: powerBackupController,
 //                   decoration: InputDecoration(labelText: 'Tmc name'),
 //                   validator: (value) {
 //                     if (value == null || value.isEmpty) {
@@ -87,7 +80,7 @@
 //                   },
 //                 ),
 //                 TextFormField(
-//                   controller: joggingParkController,
+//                   controller: fireExtinguishersController,
 //                   decoration: InputDecoration(labelText: 'City name'),
 //                   validator: (value) {
 //                     if (value == null || value.isEmpty) {
@@ -97,7 +90,7 @@
 //                   },
 //                 ),
 //                 TextFormField(
-//                   controller: spaController,
+//                   controller: carParkinController,
 //                   decoration: InputDecoration(labelText: 'District name'),
 //                   validator: (value) {
 //                     if (value == null || value.isEmpty) {
@@ -107,7 +100,7 @@
 //                   },
 //                 ),
 //                 TextFormField(
-//                   controller: swimmingPoolController,
+//                   controller: gasPipelineController,
 //                   decoration: InputDecoration(labelText: 'State name'),
 //                   validator: (value) {
 //                     if (value == null || value.isEmpty) {
@@ -117,7 +110,7 @@
 //                   },
 //                 ),
 //                 TextFormField(
-//                   controller: indoreGamesController,
+//                   controller: intercomController,
 //                   decoration: InputDecoration(labelText: 'Pin code'),
 //                   validator: (value) {
 //                     if (value == null || value.isEmpty) {
@@ -127,7 +120,7 @@
 //                   },
 //                 ),
 //                 TextFormField(
-//                   controller: groceryShopController,
+//                   controller: securityController,
 //                   decoration: InputDecoration(labelText: 'Pin code'),
 //                   validator: (value) {
 //                     if (value == null || value.isEmpty) {
@@ -137,47 +130,7 @@
 //                   },
 //                 ),
 //                 TextFormField(
-//                   controller: sportsGroundController,
-//                   decoration: InputDecoration(labelText: 'Pin code'),
-//                   validator: (value) {
-//                     if (value == null || value.isEmpty) {
-//                       return 'Please enter Pin code';
-//                     }
-//                     return null;
-//                   },
-//                 ),
-//                 TextFormField(
-//                   controller: yogaCenterController,
-//                   decoration: InputDecoration(labelText: 'Pin code'),
-//                   validator: (value) {
-//                     if (value == null || value.isEmpty) {
-//                       return 'Please enter Pin code';
-//                     }
-//                     return null;
-//                   },
-//                 ),
-//                 TextFormField(
-//                   controller: shuttleCourtController,
-//                   decoration: InputDecoration(labelText: 'Pin code'),
-//                   validator: (value) {
-//                     if (value == null || value.isEmpty) {
-//                       return 'Please enter Pin code';
-//                     }
-//                     return null;
-//                   },
-//                 ),
-//                 TextFormField(
-//                   controller: shuttleController,
-//                   decoration: InputDecoration(labelText: 'Pin code'),
-//                   validator: (value) {
-//                     if (value == null || value.isEmpty) {
-//                       return 'Please enter Pin code';
-//                     }
-//                     return null;
-//                   },
-//                 ),
-//                 TextFormField(
-//                   controller: fireSensorController,
+//                   controller: gymController,
 //                   decoration: InputDecoration(labelText: 'Pin code'),
 //                   validator: (value) {
 //                     if (value == null || value.isEmpty) {
@@ -194,41 +147,32 @@
 //     );
 //   }
 // }
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ExtraAmenitiesCard extends StatefulWidget {
-  final Function(Map<String, bool>) onExtraAmenitiesChanged;
+class RegularAmenitiesCard extends StatefulWidget {
+  final Function(Map<String, bool>) onAmenitiesChanged;
 
-  ExtraAmenitiesCard({Key? key, required this.onExtraAmenitiesChanged}) : super(key: key);
+  RegularAmenitiesCard({Key? key, required this.onAmenitiesChanged}) : super(key: key);
 
   @override
-  _ExtraAmenitiesCardState createState() => _ExtraAmenitiesCardState();
+  _RegularAmenitiesCardState createState() => _RegularAmenitiesCardState();
 }
 
-class _ExtraAmenitiesCardState extends State<ExtraAmenitiesCard> {
+class _RegularAmenitiesCardState extends State<RegularAmenitiesCard> {
   Map<String, bool> amenities = {
-    'Gym': false,
-    'Jogging Park': false,
-    'Spa': false,
-    'Swimming Pool': false,
-    'Indoor Games': false,
-    'Grocery Shop': false,
-    'Sports Ground': false,
-    'Yoga': false,
-    'Shuttle Court': false,
-    'Pre-school': false,
-    'Shuttle': false,
-    'Fire Sensor': false,
+    'Ghmc Water': false,
+    'Lift': false,
+    'Power Backup': false,
+    'Bike Parking': false,
+    'Car Parking': false,
+
   };
 
-  void _handleExtraAmenityChange(String amenity, bool value) {
+  void _handleAmenityChange(String amenity, bool value) {
     setState(() {
       amenities[amenity] = value;
-      widget.onExtraAmenitiesChanged(amenities);
+      widget.onAmenitiesChanged(amenities);
     });
   }
 
@@ -245,15 +189,15 @@ class _ExtraAmenitiesCardState extends State<ExtraAmenitiesCard> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    'Extra Amenities',
-                    style: Theme.of(context).textTheme.titleLarge,  // Updated to use titleLarge
+                    'Regular Amenities',
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
                 ...amenities.keys.map((String key) {
                   return SwitchListTile(
                     title: Text(key),
                     value: amenities[key]!,
-                    onChanged: (bool value) => _handleExtraAmenityChange(key, value),
+                    onChanged: (bool value) => _handleAmenityChange(key, value),
                   );
                 }).toList(),
               ],

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:landandplot/profile_page.dart';
-import 'package:landandplot/screens/signin_screen.dart';
+import 'package:landandplot/screens/login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'custom_drawer.dart';
 import 'favourites_page.dart';
@@ -50,7 +50,7 @@ class _PropertyVideosListState extends State<PropertyVideosList> {
       case 0:
         Navigator.pushReplacement(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
         );
         break;
       case 1:
@@ -79,7 +79,7 @@ class _PropertyVideosListState extends State<PropertyVideosList> {
         // Navigate to Search Screen
         Navigator.pushReplacement(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => SigninScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
         );
         break;
     }

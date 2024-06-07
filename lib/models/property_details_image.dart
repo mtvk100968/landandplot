@@ -1,15 +1,15 @@
 // TODO Implement t
 
-class PropertyDetails_image {
+class PropertyDetailsImage {
   final Map<String, String> imageUrls;
 
-  PropertyDetails_image({
+  PropertyDetailsImage({
     required this.imageUrls,
   });
 
-  static Map<String, PropertyDetails_image> fetchImageDetailsMap() {
+  static Map<String, PropertyDetailsImage> fetchImageDetailsMap() {
     return {
-      '1': PropertyDetails_image(
+      '1': PropertyDetailsImage(
         imageUrls: {
           '1': 'assets/images/temple-3181803_1280.jpg',
           '2': 'assets/images/landscape-5298395_1280.jpg',
@@ -17,17 +17,17 @@ class PropertyDetails_image {
           // Add more images with unique keys as needed
         },
       ),
-      '2': PropertyDetails_image(
+      '2': PropertyDetailsImage(
         imageUrls: {
           '2': 'assets/images/landscape-5298395_1280.jpg',
         },
       ),
-      '3': PropertyDetails_image(
+      '3': PropertyDetailsImage(
         imageUrls: {
           '3': 'assets/images/ladakh-2818861_1280.jpg',
         },
       ),
-      '4': PropertyDetails_image(
+      '4': PropertyDetailsImage(
         imageUrls: {
           '1': 'assets/images/temple-3181803_1280.jpg',
           '2': 'assets/images/landscape-5298395_1280.jpg',
@@ -35,17 +35,17 @@ class PropertyDetails_image {
           // Add more images with unique keys as needed
         },
       ),
-      '5': PropertyDetails_image(
+      '5': PropertyDetailsImage(
         imageUrls: {
           '2': 'assets/images/landscape-5298395_1280.jpg',
         },
       ),
-      '6': PropertyDetails_image(
+      '6': PropertyDetailsImage(
         imageUrls: {
           '3': 'assets/images/ladakh-2818861_1280.jpg',
         },
       ),
-      '7': PropertyDetails_image(
+      '7': PropertyDetailsImage(
         imageUrls: {
           '1': 'assets/images/temple-3181803_1280.jpg',
           '2': 'assets/images/landscape-5298395_1280.jpg',
@@ -53,17 +53,17 @@ class PropertyDetails_image {
           // Add more images with unique keys as needed
         },
       ),
-      '8': PropertyDetails_image(
+      '8': PropertyDetailsImage(
         imageUrls: {
           '2': 'assets/images/landscape-5298395_1280.jpg',
         },
       ),
-      '9': PropertyDetails_image(
+      '9': PropertyDetailsImage(
         imageUrls: {
           '3': 'assets/images/ladakh-2818861_1280.jpg',
         },
       ),
-      '10': PropertyDetails_image(
+      '10': PropertyDetailsImage(
         imageUrls: {
           '1': 'assets/images/temple-3181803_1280.jpg',
           '2': 'assets/images/landscape-5298395_1280.jpg',
@@ -71,7 +71,7 @@ class PropertyDetails_image {
           // Add more images with unique keys as needed
         },
       ),
-      '11': PropertyDetails_image(
+      '11': PropertyDetailsImage(
         imageUrls: {
           '1': 'assets/images/temple-3181803_1280.jpg',
           '2': 'assets/images/landscape-5298395_1280.jpg',
@@ -79,17 +79,17 @@ class PropertyDetails_image {
           // Add more images with unique keys as needed
         },
       ),
-      '12': PropertyDetails_image(
+      '12': PropertyDetailsImage(
         imageUrls: {
           '2': 'assets/images/landscape-5298395_1280.jpg',
         },
       ),
-      '13': PropertyDetails_image(
+      '13': PropertyDetailsImage(
         imageUrls: {
           '3': 'assets/images/ladakh-2818861_1280.jpg',
         },
       ),
-      '14': PropertyDetails_image(
+      '14': PropertyDetailsImage(
         imageUrls: {
           '1': 'assets/images/temple-3181803_1280.jpg',
           '2': 'assets/images/landscape-5298395_1280.jpg',
@@ -97,7 +97,7 @@ class PropertyDetails_image {
           // Add more images with unique keys as needed
         },
       ),
-      '15': PropertyDetails_image(
+      '15': PropertyDetailsImage(
         imageUrls: {
           '1': 'assets/images/temple-3181803_1280.jpg',
           '2': 'assets/images/landscape-5298395_1280.jpg',
@@ -105,7 +105,7 @@ class PropertyDetails_image {
           // Add more images with unique keys as needed
         },
       ),
-      '16': PropertyDetails_image(
+      '16': PropertyDetailsImage(
         imageUrls: {
           '1': 'assets/images/temple-3181803_1280.jpg',
           '2': 'assets/images/landscape-5298395_1280.jpg',
@@ -113,7 +113,7 @@ class PropertyDetails_image {
           // Add more images with unique keys as needed
         },
       ),
-      '17': PropertyDetails_image(
+      '17': PropertyDetailsImage(
         imageUrls: {
           '1': 'assets/images/temple-3181803_1280.jpg',
           '2': 'assets/images/landscape-5298395_1280.jpg',

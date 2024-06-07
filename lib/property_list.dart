@@ -1,9 +1,9 @@
 // property_list.dart
 import 'package:flutter/material.dart';
-import 'package:landandplot/screens/signin_screen.dart';
+import 'package:landandplot/screens/login_screen.dart';
 import 'package:landandplot/single_city.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'cluster_marker_check.dart';
+import 'landandplot.dart';
 import 'custom_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -61,7 +61,7 @@ class _PropertyListState extends State<PropertyList> {
           context,
           MaterialPageRoute(
               builder: (_) =>
-                  SigninScreen())); // Replace with your actual login screen
+                  LoginScreen())); // Replace with your actual login screen
       return;
     }
 
@@ -196,7 +196,7 @@ class _PropertyListState extends State<PropertyList> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ClusterMarkerCheck()),
+                      builder: (context) => const LandandPlot()),
                 );
               },
               child: Text(

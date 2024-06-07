@@ -1,14 +1,11 @@
-//property_details_display_page.dart
-
 import 'package:flutter/material.dart';
-import 'package:landandplot/models/property_address.dart';
 import 'package:landandplot/utils/call_utils.dart';
 import 'package:landandplot/utils/message_utils.dart';
 import 'image_carousel.dart';
-import 'models/agent.dart';
 import 'models/property_details.dart';
-import 'models/property_details_image.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'models/property_details_image.dart';
+import 'models/user_details.dart';  // Import the UserDetails class
 
 class PropertyDetailsDisplayPage extends StatefulWidget {
   final String propertyId;
@@ -23,58 +20,47 @@ class PropertyDetailsDisplayPage extends StatefulWidget {
 
 class _PropertyDetailsDisplayPageState
     extends State<PropertyDetailsDisplayPage> {
-  PropertyDetails_image? selectedPropertyImage;
+  PropertyDetailsImage? selectedPropertyImage;
   PropertyDetails? selectedProperty;
-  // AmenitiesDetails? selectedAmenities;
-  AgentDetails?
-      selectedAgent; // Declare the variable  late List<PropertyDetails> propertyDetailslist;
-  late String? imageUrl; // Declare imageUrl and company as late variables
-  late String? company;
+  UserDetails? selectedAgent;
   late List<PropertyDetails> propertyDetailslist;
-  late PropertyDetails_image propertyImages;
+  late String? imageUrl;
+  late String? company;
   late List<String> imageUrls;
-  late List<PropertyAddress> propertyAddresslist; // Declare the variable here
 
   @override
   void initState() {
     super.initState();
     selectedPropertyImage = null;
     selectedProperty = null;
-    // selectedAmenities = null;
     selectedAgent = null;
     propertyDetailslist = [];
-    propertyAddresslist = [];
+    fetchInitialData();
+  }
 
-    propertyImages =
-        PropertyDetails_image.fetchImageDetailsMap()[widget.propertyId]!;
+  Future<void> fetchInitialData() async {
+    final imageDetailsMap = await PropertyDetailsImage.fetchImageDetailsMap();
+    final propertyDetailsMap = await PropertyDetails.fetchPropertyDetailsMap();
+    final agentDetailsMap = await UserDetails.fetchUserDetailsMap();
 
-    imageUrls = propertyImages.imageUrls.values.toList();
+    setState(() {
+      if (imageDetailsMap.containsKey(widget.propertyId)) {
+        selectedPropertyImage = imageDetailsMap[widget.propertyId];
+        imageUrls = selectedPropertyImage!.imageUrls.values.toList();
+      } else {
+        imageUrls = [];
+      }
 
-    final imageDetailsMap = PropertyDetails_image.fetchImageDetailsMap();
-    final propertyDetailsMap = PropertyDetails.fetchPropertyDetailsMap();
-    // final amenitiesDetailsMap = AmenitiesDetails.fetchAmenitiesDetailsMap();
-    final agentDetailsMap = AgentDetails.fetchAgentDetailsMap();
-    //final propertyAddressList = createPropertyAddressList(context);
+      if (propertyDetailsMap.containsKey(widget.propertyId)) {
+        selectedProperty = propertyDetailsMap[widget.propertyId];
+      }
 
-    if (imageDetailsMap.containsKey(widget.propertyId)) {
-      selectedPropertyImage = imageDetailsMap[widget.propertyId];
-      print('Selected property image: $selectedPropertyImage');
-    }
+      if (agentDetailsMap.containsKey(widget.propertyId)) {
+        selectedAgent = agentDetailsMap[widget.propertyId];
+      }
 
-    if (propertyDetailsMap.containsKey(widget.propertyId)) {
-      selectedProperty = propertyDetailsMap[widget.propertyId];
-    }
-
-    // if (amenitiesDetailsMap.containsKey(widget.propertyId)) {
-    //   selectedAmenities = amenitiesDetailsMap[widget.propertyId];
-    // }
-
-    if (agentDetailsMap.containsKey(widget.propertyId)) {
-      selectedAgent = agentDetailsMap[widget.propertyId];
-    }
-
-    //propertyAddresslist = propertyAddressList;
-    propertyDetailslist = propertyDetailsMap.values.toList();
+      propertyDetailslist = propertyDetailsMap.values.toList();
+    });
   }
 
   @override
@@ -96,14 +82,13 @@ class _PropertyDetailsDisplayPageState
         },
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(0.0),
-          // child: Column(
           child: Stack(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Card(
-                    margin: EdgeInsets.zero, // Remove margin
+                    margin: EdgeInsets.zero,
                     child: ImageCarousel(imageUrls: imageUrls),
                   ),
                   Card(
@@ -114,17 +99,13 @@ class _PropertyDetailsDisplayPageState
                         Row(
                           children: [
                             Text(
-                              selectedProperty!.rent.toStringAsFixed(
-                                  0), // Display rent without decimal places
+                              selectedProperty?.rent.toStringAsFixed(0) ?? '',
                               style: const TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(
-                                width:
-                                    15), // Add some spacing between the Text widgets
-
+                            const SizedBox(width: 15),
                             const Text(
                               'Rent pm',
                               style: TextStyle(
@@ -132,11 +113,9 @@ class _PropertyDetailsDisplayPageState
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
-                            const SizedBox(
-                                width:
-                                    120), // Add some spacing between the Text widgets
+                            const SizedBox(width: 120),
                             Text(
-                              selectedProperty!.propertyType,
+                              selectedProperty?.propertyType ?? '',
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -146,12 +125,11 @@ class _PropertyDetailsDisplayPageState
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          selectedProperty!.address,
+                          selectedProperty?.address ?? '',
                           style: const TextStyle(
                             fontSize: 25,
                           ),
-                          maxLines:
-                              3, // Set maxLines to 2 to display address on two lines
+                          maxLines: 3,
                         ),
                         const SizedBox(height: 8.0),
                         Row(
@@ -169,7 +147,7 @@ class _PropertyDetailsDisplayPageState
                                     ),
                                   ),
                                   Text(
-                                    selectedProperty!.bedrooms,
+                                    selectedProperty?.bedrooms ?? '',
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -191,7 +169,7 @@ class _PropertyDetailsDisplayPageState
                                     ),
                                   ),
                                   Text(
-                                    selectedProperty!.bathrooms,
+                                    selectedProperty?.bathrooms ?? '',
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -200,7 +178,6 @@ class _PropertyDetailsDisplayPageState
                                 ],
                               ),
                             ),
-                            const VerticalDivider(),
                             const VerticalDivider(),
                             Expanded(
                               child: Column(
@@ -214,7 +191,7 @@ class _PropertyDetailsDisplayPageState
                                     ),
                                   ),
                                   Text(
-                                    selectedProperty!.totalArea as String,
+                                    selectedProperty?.totalArea.toString() ?? '',
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -259,23 +236,18 @@ class _PropertyDetailsDisplayPageState
                               Text('$company - Hyderabad'),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   ElevatedButton.icon(
                                     icon: const Icon(Icons.call),
                                     label: const Text(
                                       'Call',
-                                      style: TextStyle(
-                                          fontSize:
-                                              20), // Adjust font size as needed
+                                      style: TextStyle(fontSize: 20),
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 30,
-                                          vertical:
-                                              20), // Adjust padding as needed
+                                          horizontal: 30, vertical: 20),
                                     ),
-                                    // onPressed: () => launchUrl(Uri.parse('tel:$agentPhoneNumber')),
                                     onPressed: () =>
                                         CallUtils.makeCall('+919959788005'),
                                   ),
@@ -283,17 +255,12 @@ class _PropertyDetailsDisplayPageState
                                     icon: const Icon(Icons.message),
                                     label: const Text(
                                       'Text',
-                                      style: TextStyle(
-                                          fontSize:
-                                              20), // Adjust font size as needed
+                                      style: TextStyle(fontSize: 20),
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 30,
-                                          vertical:
-                                              20), // Adjust padding as needed
+                                          horizontal: 30, vertical: 20),
                                     ),
-                                    // onPressed: () => launchUrl(Uri.parse('sms:$agentPhoneNumber')),
                                     onPressed: () =>
                                         MessageUtils.sendSMS('+919959788005'),
                                   ),
@@ -303,42 +270,34 @@ class _PropertyDetailsDisplayPageState
                               const SizedBox(height: 8.0),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   ElevatedButton.icon(
                                     icon: const Icon(Icons.email),
                                     label: const Text(
                                       'Email',
-                                      style: TextStyle(
-                                          fontSize:
-                                              20), // Adjust font size as needed
+                                      style: TextStyle(fontSize: 20),
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 30,
-                                          vertical:
-                                              20), // Adjust padding as needed
+                                          horizontal: 30, vertical: 20),
                                     ),
-                                    //onPressed: () => launchUrl(Uri.parse('mailto:$agentEmail')),
                                     onPressed: () => launchUrl(Uri.parse(
                                         'mailto:tirupathim@gmail.com')),
                                   ),
                                   ElevatedButton(
                                     onPressed: () async {
-                                      // Replace '+919959788005' with the full international phone number without the '+' sign
                                       final Uri whatsappUri = Uri.parse(
                                           'https://wa.me/+919959788005');
                                       if (await canLaunchUrl(whatsappUri)) {
                                         await launchUrl(whatsappUri);
                                       } else {
-                                        // Show a message or handle the failure to launch the URL
                                         print('Could not launch $whatsappUri');
                                       }
                                     },
                                     child: const Text(
                                       'WhatsApp',
-                                      style: TextStyle(
-                                          fontSize: 20), // Larger font size
+                                      style: TextStyle(fontSize: 20),
                                     ),
                                   )
                                 ],

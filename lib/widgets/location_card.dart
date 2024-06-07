@@ -1,37 +1,49 @@
-// location_card.dart
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class LocationCard extends StatelessWidget {
+class LocationCard extends StatefulWidget {
   final LatLng initialPosition;
   final double height;
   final double width;
+  final TextEditingController latitudeController;
+  final TextEditingController longitudeController;
   final Function(GoogleMapController) onMapCreated;
 
-  const LocationCard({
-    Key? key,
+  LocationCard({
     required this.initialPosition,
     required this.height,
     required this.width,
+    required this.latitudeController,
+    required this.longitudeController,
     required this.onMapCreated,
-  }) : super(key: key);
+  });
+
+  @override
+  _LocationCardState createState() => _LocationCardState();
+}
+
+class _LocationCardState extends State<LocationCard> {
+  late GoogleMapController _controller;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
       child: Container(
-        height: height,
-        width: width,
+        height: widget.height,
+        width: widget.width,
         child: GoogleMap(
           initialCameraPosition: CameraPosition(
-            target: initialPosition,
-            zoom: 12,
+            target: widget.initialPosition,
+            zoom: 14.0,
           ),
-          onMapCreated: onMapCreated,
-          myLocationEnabled: true,
-          myLocationButtonEnabled: true,
-          // Add more properties as per your requirement
+          onMapCreated: (controller) {
+            _controller = controller;
+            widget.onMapCreated(controller);
+          },
+          onTap: (LatLng position) {
+            widget.latitudeController.text = position.latitude.toString();
+            widget.longitudeController.text = position.longitude.toString();
+          },
         ),
       ),
     );

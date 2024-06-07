@@ -1,4 +1,4 @@
-// signin_screen.dart
+// login_screen.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,13 +14,13 @@ import '../services/facebook_auth_service.dart';
 import 'forget_password_screen.dart';
 import '../services/google_auth_service.dart';
 
-class SigninScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = '/login_screen';
   @override
-  _SigninScreenState createState() => _SigninScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _SigninScreenState extends State<SigninScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   static const routeName =
       '/login_screen'; // Add this line if not already present
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -41,7 +41,7 @@ class _SigninScreenState extends State<SigninScreen> {
       case 0:
         Navigator.pushReplacement(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
         );
         break;
       case 1:
@@ -70,7 +70,7 @@ class _SigninScreenState extends State<SigninScreen> {
         // Navigate to Search Screen
         Navigator.pushReplacement(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => SigninScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
         );
         break;
     }
@@ -110,7 +110,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     // Navigate to the HomePage
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
                     );
                   } else {
                     // Handle the case where the user cancelled the sign-in or there was an error
@@ -142,7 +142,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     // Navigate to the HomePage
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
                     );
                   } else {
                     // Handle the case where the user cancelled the sign-in or there was an error

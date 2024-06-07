@@ -1,7 +1,7 @@
 // profile_page.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:landandplot/screens/signin_screen.dart';
+import 'package:landandplot/screens/login_screen.dart';
 import 'package:landandplot/proeprty_videos_list.dart';
 import 'favourites_page.dart';
 import 'home_screen.dart';
@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
       case 0:
         Navigator.pushReplacement(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
         );
         break;
       case 1:
@@ -58,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
         // Navigate to Search Screen
         Navigator.pushReplacement(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => SigninScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
         );
         break;
     }
