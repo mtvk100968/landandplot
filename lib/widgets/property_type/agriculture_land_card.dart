@@ -7,12 +7,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart' as loc; // Aliased location package
 import 'package:permission_handler/permission_handler.dart';
-import '../services/storage_service.dart';
-import 'amenities_card.dart';
-import 'extra_amenities_card.dart';
-import 'location_card.dart';
+import '../../services/storage_service.dart';
+import '../amenities_card.dart';
+import '../extra_amenities_card.dart';
+import '../location_card.dart';
 
-class GcPlotCard extends StatefulWidget {
+class AgricultureLandCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
   final TextEditingController propertyOwnerNameController;
@@ -24,7 +24,7 @@ class GcPlotCard extends StatefulWidget {
   final TextEditingController roadInfeetsController;
   final TextEditingController landFaceingLengthController;
 
-  GcPlotCard({
+  AgricultureLandCard({
     Key? key,
     required this.propertyIdController,
     required this.mobileNoController,
@@ -39,10 +39,10 @@ class GcPlotCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _GcPlotCardState createState() => _GcPlotCardState();
+  _AgricultureLandCardState createState() => _AgricultureLandCardState();
 }
 
-class _GcPlotCardState extends State<GcPlotCard> {
+class _AgricultureLandCardState extends State<AgricultureLandCard> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -183,29 +183,17 @@ class _GcPlotCardState extends State<GcPlotCard> {
   }
 
   Map<String, bool> amenities = {
-    'Internet': false,
-    'Cctv': false,
-    'Power Backup': false,
-    'Fire Extinguishers': false,
-    'Car Parking': false,
-    'Gas Pipeline': false,
-    'Intercom': false,
-    'Security': false,
+    'bore': false,
+    'fenceing': false,
+    'eletrcity': false,
+    'gate': false,
+    'farm house': false,
   };
 
   Map<String, bool> extraAmenities = {
-    'Gym': false,
-    'Jogging Park': false,
-    'Spa': false,
+    'plantation': false,
     'Swimming Pool': false,
-    'Indoor Games': false,
-    'Grocery Shop': false,
-    'Sports Ground': false,
-    'Yoga': false,
-    'Shuttle Court': false,
-    'Pre-school': false,
-    'Shuttle': false,
-    'Fire Sensor': false,
+    'no of trees': false,
   };
 
   void _handleAmenitiesChanged(Map<String, bool> updatedAmenities) {

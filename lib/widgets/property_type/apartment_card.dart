@@ -1,55 +1,54 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:location/location.dart' as loc; // Aliased location package
 import 'package:permission_handler/permission_handler.dart';
-import '../services/storage_service.dart';
-import 'amenities_card.dart';
-import 'extra_amenities_card.dart';
-import 'location_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../services/storage_service.dart';
+import '../amenities_card.dart';
+import '../extra_amenities_card.dart';
+import '../location_card.dart';
 
-class AgricultureLandCard extends StatefulWidget {
+class ApartmentCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
-  final TextEditingController propertyOwnerNameController;
-  final TextEditingController propertyRegByController;
-  final TextEditingController pricePerAcreController;
-  final TextEditingController totalAcresController;
-  final TextEditingController totalLandPriceController;
-  final TextEditingController roadAccessController;
-  final TextEditingController roadInfeetsController;
-  final TextEditingController landFaceingLengthController;
+  final TextEditingController propertyNameController;
+  final TextEditingController ratePerSftController;
+  final TextEditingController totalAreaController;
+  final TextEditingController carpetAreaController;
+  final TextEditingController aminitiesChargesController;
+  final TextEditingController bedRoomsController;
+  final TextEditingController bathRoomsController;
+  final TextEditingController balConiesController;
+  final Map<String, dynamic> propertyDetails;
+  final Function(Map<String, dynamic>) onSave;
 
-  AgricultureLandCard({
+  ApartmentCard({
     Key? key,
     required this.propertyIdController,
     required this.mobileNoController,
-    required this.propertyOwnerNameController,
-    required this.propertyRegByController,
-    required this.pricePerAcreController,
-    required this.totalAcresController,
-    required this.totalLandPriceController,
-    required this.roadAccessController,
-    required this.roadInfeetsController,
-    required this.landFaceingLengthController,
+    required this.propertyNameController,
+    required this.ratePerSftController,
+    required this.totalAreaController,
+    required this.carpetAreaController,
+    required this.aminitiesChargesController,
+    required this.bedRoomsController,
+    required this.bathRoomsController,
+    required this.balConiesController,
+    required this.propertyDetails,
+    required this.onSave,
   }) : super(key: key);
 
   @override
-  _AgricultureLandCardState createState() => _AgricultureLandCardState();
+  _ApartmentCardState createState() => _ApartmentCardState();
 }
 
-class _AgricultureLandCardState extends State<AgricultureLandCard> {
+class _ApartmentCardState extends State<ApartmentCard> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
-  late final Map<String, dynamic> propertyDetails;
-  late final Function(Map<String, dynamic>) onSave;
-
   List<XFile> _imageFileList = [];
   bool _isSubmitting = false;
   bool _showDetails = false;
@@ -88,9 +87,8 @@ class _AgricultureLandCardState extends State<AgricultureLandCard> {
     final PermissionStatus photosPermission = await Permission.photos.request();
     final PermissionStatus storagePermission = await Permission.storage.request();
     final PermissionStatus cameraPermission = await Permission.camera.request();
-    final loc.PermissionStatus locationPermission = await loc.Location().requestPermission(); // Aliased PermissionStatus
 
-    if (photosPermission.isDenied || storagePermission.isDenied || cameraPermission.isDenied || locationPermission == loc.PermissionStatus.denied) {
+    if (photosPermission.isDenied || storagePermission.isDenied || cameraPermission.isDenied) {
       await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -126,27 +124,30 @@ class _AgricultureLandCardState extends State<AgricultureLandCard> {
       FirebaseFirestore.instance.collection('properties').add({
         'propertyId': widget.propertyIdController.text,
         'mobileNo': widget.mobileNoController.text,
-        'ownerName': widget.propertyOwnerNameController.text,
-        'regBy': widget.propertyRegByController.text,
-        'pricePerAcre': int.parse(widget.pricePerAcreController.text),
-        'totalAcres': int.parse(widget.totalAcresController.text),
-        'totalLandPrice': int.parse(widget.totalLandPriceController.text),
-        'roadAccess': widget.roadAccessController.text,
-        'roadInFeets': int.parse(widget.roadInfeetsController.text),
-        'landFaceingLength': int.parse(widget.landFaceingLengthController.text),
+        'propertyName': widget.propertyNameController.text,
+        'ratePerSft': int.parse(widget.ratePerSftController.text),
+        'totalArea': int.parse(widget.totalAreaController.text),
+        'carpetArea': int.parse(widget.carpetAreaController.text),
+        'advanceRent': int.parse(widget.aminitiesChargesController.text),
+        'bedRooms': int.parse(widget.bedRoomsController.text),
+        'bathRooms': int.parse(widget.bathRoomsController.text),
+        'balConies': int.parse(widget.balConiesController.text),
         'latitude': double.parse(_latController.text),
         'longitude': double.parse(_lngController.text),
         'imageUrls': imageUrls, // Store uploaded image URLs in Firestore
+        'amenities': amenities,
+        'extraAmenities': extraAmenities,
       }).then((value) {
         widget.propertyIdController.clear();
         widget.mobileNoController.clear();
-        widget.propertyOwnerNameController.clear();
-        widget.propertyRegByController.clear();
-        widget.pricePerAcreController.clear();
-        widget.totalAcresController.clear();
-        widget.roadAccessController.clear();
-        widget.roadInfeetsController.clear();
-        widget.landFaceingLengthController.clear();
+        widget.propertyNameController.clear();
+        widget.ratePerSftController.clear();
+        widget.totalAreaController.clear();
+        widget.carpetAreaController.clear();
+        widget.aminitiesChargesController.clear();
+        widget.bedRoomsController.clear();
+        widget.bathRoomsController.clear();
+        widget.balConiesController.clear();
         _latController.clear();
         _lngController.clear();
 
@@ -266,13 +267,13 @@ class _AgricultureLandCardState extends State<AgricultureLandCard> {
                         ],
                       ),
                       TextFormField(
-                        controller: widget.propertyOwnerNameController,
+                        controller: widget.propertyNameController,
                         decoration: InputDecoration(
-                          labelText: 'Property Owner Name',
+                          labelText: 'Property Name',
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Property Owner Name';
+                            return 'Please enter Property Name';
                           }
                           return null;
                         },
@@ -280,48 +281,15 @@ class _AgricultureLandCardState extends State<AgricultureLandCard> {
                         maxLines: null,
                       ),
                       TextFormField(
-                        controller: widget.propertyRegByController,
-                        decoration: InputDecoration(
-                          labelText: 'Property Reg By',
-                        ),
+                        controller: widget.totalAreaController,
+                        decoration: InputDecoration(labelText: 'Total Area'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Property Reg By Name';
-                          }
-                          return null;
-                        },
-                        maxLength: 100,
-                        maxLines: null,
-                      ),
-                      TextFormField(
-                        controller: widget.pricePerAcreController,
-                        decoration: InputDecoration(labelText: 'Price per acre'),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter Price per acre';
-                          }
-                          final area = int.tryParse(value);
-                          if (area == null || area < 0 || area > 99999999999) {
-                            return 'Please enter a valid Price per acre (up to 99999999999)';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(5),
-                        ],
-                      ),
-                      TextFormField(
-                        controller: widget.totalAcresController,
-                        decoration: InputDecoration(labelText: 'Total Acres'),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter Total Acres';
+                            return 'Please enter Total Area';
                           }
                           final area = int.tryParse(value);
                           if (area == null || area < 0 || area > 10000) {
-                            return 'Please enter a valid Total Acres (up to 5000)';
+                            return 'Please enter a valid Total Area (up to 10,000 sqft)';
                           }
                           return null;
                         },
@@ -332,15 +300,34 @@ class _AgricultureLandCardState extends State<AgricultureLandCard> {
                         ],
                       ),
                       TextFormField(
-                        controller: widget.totalLandPriceController,
-                        decoration: InputDecoration(labelText: 'Total Land Price'),
+                        controller: widget.carpetAreaController,
+                        decoration: InputDecoration(labelText: 'Carpet Area'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Total Land Price';
+                            return 'Please enter Carpet Area';
+                          }
+                          final area = int.tryParse(value);
+                          if (area == null || area < 0 || area > 10000) {
+                            return 'Please enter a valid Carpet Area (up to 10,000 sqft)';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(5),
+                        ],
+                      ),
+                      TextFormField(
+                        controller: widget.ratePerSftController,
+                        decoration: InputDecoration(labelText: 'Rate per SFT'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Rate per SFT';
                           }
                           final amount = int.tryParse(value);
                           if (amount == null || amount < 0 || amount > 1000000) {
-                            return 'Please enter a valid Total Land Price (up to 1,000,000)';
+                            return 'Please enter a valid Persft  (up to 10,00,00,000)';
                           }
                           return null;
                         },
@@ -351,55 +338,86 @@ class _AgricultureLandCardState extends State<AgricultureLandCard> {
                         ],
                       ),
                       TextFormField(
-                        controller: widget.roadAccessController,
-                        decoration: InputDecoration(labelText: 'Road Access'),
+                        controller: widget.aminitiesChargesController,
+                        decoration: InputDecoration(labelText: 'Amenities Charges'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Road Access';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.text,
-                        inputFormatters: <TextInputFormatter>[
-                          LengthLimitingTextInputFormatter(20),
-                        ],
-                      ),
-                      TextFormField(
-                        controller: widget.roadInfeetsController,
-                        decoration: InputDecoration(labelText: 'Road in Feets'),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter Road in Feets';
+                            return 'Please enter Amenities Charges';
                           }
                           final amount = int.tryParse(value);
-                          if (amount == null || amount < 0 || amount > 1000) {
-                            return 'Please enter a valid Road in Feets (up to 1,000)';
+                          if (amount == null || amount < 0 || amount > 100000000) {
+                            return 'Please enter a valid Amenities Charges (up to 10,00,00,000)';
                           }
                           return null;
                         },
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(3),
+                          LengthLimitingTextInputFormatter(7),
                         ],
                       ),
                       TextFormField(
-                        controller: widget.landFaceingLengthController,
-                        decoration: InputDecoration(labelText: 'Land Facing Length'),
+                        controller: widget.aminitiesChargesController,
+                        decoration: InputDecoration(labelText: 'Total Price'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Land Facing Length';
+                            return 'Please enter Total Price';
                           }
                           final amount = int.tryParse(value);
-                          if (amount == null || amount < 0 || amount > 1000) {
-                            return 'Please enter a valid Land Facing Length (up to 1,000)';
+                          if (amount == null || amount < 0 || amount > 10000000000) {
+                            return 'Please enter a valid Total Price (up to 100,00,00,000)';
                           }
                           return null;
                         },
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(3),
+                          LengthLimitingTextInputFormatter(7),
+                        ],
+                      ),
+                      TextFormField(
+                        controller: widget.bedRoomsController,
+                        decoration: InputDecoration(labelText: 'Bedrooms'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Bedrooms count';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(2),
+                        ],
+                      ),
+                      TextFormField(
+                        controller: widget.bathRoomsController,
+                        decoration: InputDecoration(labelText: 'Bathrooms'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Bathrooms count';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(2),
+                        ],
+                      ),
+                      TextFormField(
+                        controller: widget.balConiesController,
+                        decoration: InputDecoration(labelText: 'Balconies'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Balconies count';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(2),
                         ],
                       ),
                     ],

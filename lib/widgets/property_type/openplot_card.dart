@@ -8,19 +8,19 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart' as loc; // Aliased location package
 import 'package:permission_handler/permission_handler.dart';
-import '../services/storage_service.dart';
-import 'amenities_card.dart';
-import 'extra_amenities_card.dart';
-import 'location_card.dart';
+import '../../services/storage_service.dart';
+import '../amenities_card.dart';
+import '../extra_amenities_card.dart';
+import '../location_card.dart';
 
 class OpenPlotCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
   final TextEditingController propertyOwnerNameController;
   final TextEditingController propertyRegByController;
-  final TextEditingController pricePerAcreController;
-  final TextEditingController totalAcresController;
-  final TextEditingController totalLandPriceController;
+  final TextEditingController pricePerSftController;
+  final TextEditingController totalAreaController;
+  final TextEditingController totalPlotPriceController;
   final TextEditingController roadAccessController;
   final TextEditingController roadInfeetsController;
   final TextEditingController landFaceingLengthController;
@@ -31,9 +31,9 @@ class OpenPlotCard extends StatefulWidget {
     required this.mobileNoController,
     required this.propertyOwnerNameController,
     required this.propertyRegByController,
-    required this.pricePerAcreController,
-    required this.totalAcresController,
-    required this.totalLandPriceController,
+    required this.pricePerSftController,
+    required this.totalAreaController,
+    required this.totalPlotPriceController,
     required this.roadAccessController,
     required this.roadInfeetsController,
     required this.landFaceingLengthController,
@@ -129,9 +129,9 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
         'mobileNo': widget.mobileNoController.text,
         'ownerName': widget.propertyOwnerNameController.text,
         'regBy': widget.propertyRegByController.text,
-        'pricePerAcre': int.parse(widget.pricePerAcreController.text),
-        'totalAcres': int.parse(widget.totalAcresController.text),
-        'totalLandPrice': int.parse(widget.totalLandPriceController.text),
+        'pricePerAcre': int.parse(widget.pricePerSftController.text),
+        'totalAcres': int.parse(widget.totalAreaController.text),
+        'totalLandPrice': int.parse(widget.totalPlotPriceController.text),
         'roadAccess': widget.roadAccessController.text,
         'roadInFeets': int.parse(widget.roadInfeetsController.text),
         'landFaceingLength': int.parse(widget.landFaceingLengthController.text),
@@ -143,8 +143,10 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
         widget.mobileNoController.clear();
         widget.propertyOwnerNameController.clear();
         widget.propertyRegByController.clear();
-        widget.pricePerAcreController.clear();
-        widget.totalAcresController.clear();
+        widget.pricePerSftController.clear();
+        widget.totalAreaController.clear();
+        widget.totalPlotPriceController.clear();
+
         widget.roadAccessController.clear();
         widget.roadInfeetsController.clear();
         widget.landFaceingLengthController.clear();
@@ -295,7 +297,7 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
                         maxLines: null,
                       ),
                       TextFormField(
-                        controller: widget.pricePerAcreController,
+                        controller: widget.pricePerSftController,
                         decoration: InputDecoration(labelText: 'Price per acre'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -314,7 +316,7 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
                         ],
                       ),
                       TextFormField(
-                        controller: widget.totalAcresController,
+                        controller: widget.totalAreaController,
                         decoration: InputDecoration(labelText: 'Total Acres'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -333,7 +335,7 @@ class _OpenPlotCardState extends State<OpenPlotCard> {
                         ],
                       ),
                       TextFormField(
-                        controller: widget.totalLandPriceController,
+                        controller: widget.totalPlotPriceController,
                         decoration: InputDecoration(labelText: 'Total Land Price'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {

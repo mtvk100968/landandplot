@@ -20,12 +20,17 @@ class AddPropertyByLap extends StatefulWidget {
 
 class _AddPropertyByLapState extends State<AddPropertyByLap> {
   final List<DropdownMenuItem<String>> propertyTypeItems = [
-    DropdownMenuItem(value: "Apartment", child: Text("Apartment")),
-    DropdownMenuItem(value: "House", child: Text("House")),
-    DropdownMenuItem(value: "Commercial Space", child: Text("Commercial Space")),
-    DropdownMenuItem(value: "Villa", child: Text("Villa")),
-    DropdownMenuItem(value: "Gated Community Villa", child: Text("Gated Community Villa")),
-    DropdownMenuItem(value: "Gated Community Aprt", child: Text("Gated Community Aprt")),
+    const DropdownMenuItem(value: "Agriculture Land", child: Text("Agriculture Land")),
+    const DropdownMenuItem(value: "Farm Land", child: Text("Farm Land")),
+    const DropdownMenuItem(value: "Commercial Plot", child: Text("Commercial Plot")),
+    const DropdownMenuItem(value: "Commercial Space", child: Text("Commercial Space")),
+    const DropdownMenuItem(value: "House", child: Text("House")),
+    const DropdownMenuItem(value: "Open Plot", child: Text("Open Plot")),
+    const DropdownMenuItem(value: "Villa", child: Text("Villa")),
+    const DropdownMenuItem(value: "Apartment", child: Text("Apartment")),
+    const DropdownMenuItem(value: "Gated Community Aprts", child: Text("Gated Community Aprt")),
+    const DropdownMenuItem(value: "Gated Community Plots", child: Text("Gated Community Aprt")),
+    const DropdownMenuItem(value: "Gated Community Villa", child: Text("Gated Community Villa")),
   ];
 
   String? selectedPropertyType;
@@ -40,7 +45,6 @@ class _AddPropertyByLapState extends State<AddPropertyByLap> {
   final PropertyService _propertyService = PropertyService();
   final ImagePicker _picker = ImagePicker();
   List<XFile> _imageFileList = [];
-
   bool _isSubmitting = false;
 
   @override

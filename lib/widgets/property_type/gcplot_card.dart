@@ -7,12 +7,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart' as loc; // Aliased location package
 import 'package:permission_handler/permission_handler.dart';
-import '../services/storage_service.dart';
-import 'amenities_card.dart';
-import 'extra_amenities_card.dart';
-import 'location_card.dart';
+import '../../services/storage_service.dart';
+import '../amenities_card.dart';
+import '../extra_amenities_card.dart';
+import '../location_card.dart';
 
-class FarmLandCard extends StatefulWidget {
+class GcPlotCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
   final TextEditingController propertyOwnerNameController;
@@ -24,7 +24,7 @@ class FarmLandCard extends StatefulWidget {
   final TextEditingController roadInfeetsController;
   final TextEditingController landFaceingLengthController;
 
-  FarmLandCard({
+  GcPlotCard({
     Key? key,
     required this.propertyIdController,
     required this.mobileNoController,
@@ -39,10 +39,10 @@ class FarmLandCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _FarmLandCardState createState() => _FarmLandCardState();
+  _GcPlotCardState createState() => _GcPlotCardState();
 }
 
-class _FarmLandCardState extends State<FarmLandCard> {
+class _GcPlotCardState extends State<GcPlotCard> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

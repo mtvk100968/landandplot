@@ -8,7 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:landandplot/widgets/regular_amenities_card.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'location_card.dart';
+import '../location_card.dart';
 
 class HouseCard extends StatefulWidget {
   final TextEditingController propertyIdController;

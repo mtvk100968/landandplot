@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:landandplot/screens/billing_page.dart';
 import 'package:landandplot/services/firestore_database_service.dart';
-import 'package:landandplot/widgets/apartment_card.dart';
-import 'package:landandplot/widgets/commercial_land_card.dart';
-import 'package:landandplot/widgets/gcapt_card.dart';
-import 'package:landandplot/widgets/gcvilla_card.dart';
-import 'package:landandplot/widgets/house_card.dart';
-import 'package:landandplot/widgets/villa_card.dart';
+import 'package:landandplot/widgets/widgettype/apartment_card.dart';
+import 'package:landandplot/widgets/widgettype/commercial_plot_card.dart';
+import 'package:landandplot/widgets/widgettype/gcapt_card.dart';
+import 'package:landandplot/widgets/widgettype/gcvilla_card.dart';
+import 'package:landandplot/widgets/widgettype/house_card.dart';
+import 'package:landandplot/widgets/widgettype/villa_card.dart';
 
 class PropertyRegByUser extends StatefulWidget {
   @override

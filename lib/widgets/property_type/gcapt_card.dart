@@ -7,9 +7,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'amenities_card.dart';
-import 'extra_amenities_card.dart';
-import 'location_card.dart';
+import '../amenities_card.dart';
+import '../extra_amenities_card.dart';
+import '../location_card.dart';
 
 class GcAptCard extends StatefulWidget {
   final TextEditingController propertyIdController;

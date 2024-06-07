@@ -1,4 +1,4 @@
-// gcvilla_card.dart
+// villa_card.dart
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,24 +6,24 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'amenities_card.dart';
-import 'extra_amenities_card.dart';
-import 'location_card.dart';
+import '../amenities_card.dart';
+import '../extra_amenities_card.dart';
+import '../location_card.dart';
 
-class GcVillaCard extends StatefulWidget {
+class VillaCard extends StatefulWidget {
   final TextEditingController propertyIdController;
   final TextEditingController mobileNoController;
   final TextEditingController propertyNameController;
-  final TextEditingController rentPerMonthController;
-  final TextEditingController advanceRentController;
   final TextEditingController areaInSqftController;
   final TextEditingController carpetAreaController;
+  final TextEditingController rentPerMonthController;
+  final TextEditingController advanceRentController;
   final TextEditingController bedRoomsController;
   final TextEditingController bathRoomsController;
   final TextEditingController balConiesController;
   final Map<String, dynamic> propertyDetails;
   final Function(Map<String, dynamic>) onSave;
-  GcVillaCard({
+  VillaCard({
     Key? key,
     required this.propertyIdController,
     required this.mobileNoController,
@@ -40,17 +40,16 @@ class GcVillaCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _GcVillaCardState createState() => _GcVillaCardState();
+  _VillaCardState createState() => _VillaCardState();
 }
 
-class _GcVillaCardState extends State<GcVillaCard> {
+class _VillaCardState extends State<VillaCard> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   List<XFile> _imageFileList = [];
   bool _isSubmitting = false;
-
   bool _showDetails = false;
 
   void _handleMapTap(LatLng position) {
@@ -301,6 +300,7 @@ class _GcVillaCardState extends State<GcVillaCard> {
               ),
             ),
           ),
+
           Card(
             child: Padding(
               padding: EdgeInsets.all(16.0),
@@ -355,7 +355,6 @@ class _GcVillaCardState extends State<GcVillaCard> {
           ExtraAmenitiesCard(
             onExtraAmenitiesChanged: _handleExtraAmenitiesChanged,
           ),
-
         ],
       ),
     );
