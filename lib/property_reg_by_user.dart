@@ -110,10 +110,10 @@ class _PropertyRegByUserState extends State<PropertyRegByUser> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              'RENTLOAPP',
+             Text(
+              'LANDANDPLOT',
               style: TextStyle(
-                color: Colors.blue,
+                color: Colors.green,
                 fontSize: 30,
                 fontWeight: FontWeight.w800,
               ),

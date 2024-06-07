@@ -86,14 +86,15 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.white, // Set the background color to white
         titleSpacing: 0.0, // Adjust the spacing here as needed
         title: Text(
-          'RENTLOAPP',
+          'LANDANDPLOT',
           style: TextStyle(
-            color: Colors.blue, // Set the text color to black
-            fontSize: 30, // Adjust the font size as needed
-            fontWeight: FontWeight.w800, // Make the text bold
+            color: Colors.green,
+            fontSize: 30,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),
+
       drawer: CustomDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
@@ -115,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   } else {
                     // Handle the case where the user cancelled the sign-in or there was an error
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                           content:
                               Text('Google sign-in failed or was cancelled')),
                     );

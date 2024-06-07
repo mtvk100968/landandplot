@@ -462,11 +462,11 @@ class _GooglePlacesAutoCompleteState extends State<GooglePlacesAutoComplete> {
         backgroundColor: Colors.white, // Set the background color to white
         titleSpacing: 0.0, // Adjust the spacing here as needed
         title: Text(
-          'RENTLOAPP',
+          'LANDANDPLOT',
           style: TextStyle(
-            color: Colors.blue, // Set the text color to black
-            fontSize: 30, // Adjust the font size as needed
-            fontWeight: FontWeight.w800, // Make the text bold
+            color: Colors.green,
+            fontSize: 30,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),

@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:fluster/fluster.dart';
-// import 'package:rentloapp/models/property_info.dart';
 
 class MapPropertyInfo extends Clusterable {
   final String propertyId;

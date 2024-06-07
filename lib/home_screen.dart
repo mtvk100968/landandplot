@@ -204,10 +204,10 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'RENTLOAPP',
+            const  Text(
+              'LANDANDPLOT',
               style: TextStyle(
-                color: Colors.blue,
+                color: Colors.green,
                 fontSize: 30,
                 fontWeight: FontWeight.w800,
               ),

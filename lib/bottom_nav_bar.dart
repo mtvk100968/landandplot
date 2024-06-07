@@ -44,7 +44,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void initState() {
     super.initState();
     _widgetOptions = [
-      HomeScreen(userId: '',),
+      HomeScreen(
+        userId: '',
+      ),
       ProfilePage(),
       FavoritesPage(userId: widget.userId),
       PropertyVideosList(),
@@ -80,18 +82,21 @@ class _BottomNavBarState extends State<BottomNavBar> {
       case 0:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                    userId: '',
+                  )),
         );
         break;
       case 1:
-      // Navigate to Profile Screen  ProfilePage
+        // Navigate to Profile Screen  ProfilePage
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ProfilePage()),
         );
         break;
       case 2:
-      // Navigate to Favorites Screen
+        // Navigate to Favorites Screen
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -99,14 +104,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
         );
         break;
       case 3:
-      // Navigate to Videos Screen
+        // Navigate to Videos Screen
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => PropertyVideosList()),
         );
         break;
       case 4:
-      // Navigate to Search Screen
+        // Navigate to Search Screen
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -119,7 +124,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     // Define the widget options in a list. Replace these with your actual widgets.
     final List<Widget> _widgetOptions = <Widget>[
-      HomeScreen(userId: '',),
+      HomeScreen(
+        userId: '',
+      ),
       ProfilePage(),
       FavoritesPage(userId: widget.userId),
       PropertyVideosList(),
@@ -134,11 +141,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
         backgroundColor: Colors.white, // Set the background color to white
         titleSpacing: 0.0, // Adjust the spacing here as needed
         title: Text(
-          'RENTLOAPP',
+          'LANDANDPLOT',
           style: TextStyle(
-            color: Colors.blue, // Set the text color to black
-            fontSize: 30, // Adjust the font size as needed
-            fontWeight: FontWeight.w800, // Make the text bold
+            color: Colors.green,
+            fontSize: 30,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),

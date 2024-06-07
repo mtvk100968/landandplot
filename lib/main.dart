@@ -1,4 +1,3 @@
-// main.dart
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,9 +23,8 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
+  await _initializeFirebase();
 
   // Initialize FacebookAuth
   FacebookAuth.instance;
@@ -41,12 +39,23 @@ void main() async {
   });
 }
 
+Future<void> _initializeFirebase() async {
+  try {
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+  } catch (e) {
+    print('Error initializing Firebase: $e');
+  }
+}
+
 Future<void> runShaderWarmUp() async {
   final ShaderWarmUpPainter painter = ShaderWarmUpPainter();
   final PictureRecorder recorder = PictureRecorder();
   final Canvas canvas = Canvas(recorder);
-  final Size size =
-      Size(1024, 1024); // Use an appropriate size for offscreen canvas
+  final Size size = Size(1024, 1024); // Use an appropriate size for offscreen canvas
 
   painter.paint(canvas, size); // Perform the painting
 
@@ -54,7 +63,6 @@ Future<void> runShaderWarmUp() async {
   await picture.toImage(
       1024, 1024); // Await the image to ensure the shaders are compiled
 }
-
 
 class ShaderWarmUpPainter extends CustomPainter {
   @override
@@ -97,14 +105,14 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splash': (context) => SplashScreen(), // Define splash screen route
         '/': (context) =>
-            const HomeScreen(userId: '',), // HomeScreen is now the main screen after splash
+        const HomeScreen(userId: '',), // HomeScreen is now the main screen after splash
         '/addpropertybylap': (context) => AddPropertyByLap(),
         '/loginscreen': (context) => LoginScreen(),
         '/signup': (context) => SignUpScreen(),
         '/clustermarkercheck': (context) => LandandPlot(),
         '/placessautocomplete': (context) => GooglePlacesAutoComplete(
-              placesService: placesService,
-            ), // Remove 'const' here
+          placesService: placesService,
+        ), // Remove 'const' here
         '/propertyreg': (context) => PropertyRegByUser(),
         '/bottomnavbar': (context) =>
             BottomNavBar(placesService: placesService, userId: userId),
@@ -122,14 +130,14 @@ class MyApp extends StatelessWidget {
         // Handle any dynamic route generation here
         switch (settings.name) {
           case '/dynamicRoute':
-            // Example of a dynamic route
+          // Example of a dynamic route
             final args = settings.arguments as MyCustomArguments;
             return MaterialPageRoute(
               builder: (context) => MyDynamicScreen(args: args),
             );
-          // Add other case statements for other dynamic routes...
+        // Add other case statements for other dynamic routes...
           default:
-            // If no cases match, return null which will trigger onUnknownRoute
+          // If no cases match, return null which will trigger onUnknownRoute
             return null;
         }
       },

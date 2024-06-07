@@ -50,7 +50,10 @@ class _PropertyVideosListState extends State<PropertyVideosList> {
       case 0:
         Navigator.pushReplacement(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                    userId: '',
+                  )),
         );
         break;
       case 1:
@@ -98,11 +101,11 @@ class _PropertyVideosListState extends State<PropertyVideosList> {
         backgroundColor: Colors.white, // Set the background color to white
         titleSpacing: 0.0, // Adjust the spacing here as needed
         title: Text(
-          'RENTLOAPP',
+          'LANDANDPLOT',
           style: TextStyle(
-            color: Colors.blue, // Set the text color to black
-            fontSize: 30, // Adjust the font size as needed
-            fontWeight: FontWeight.w800, // Make the text bold
+            color: Colors.green,
+            fontSize: 30,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),
