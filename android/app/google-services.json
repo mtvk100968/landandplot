@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "427763326374-uphiduj1qggur2idbson6i0n0urk9mkg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mmsoft.landandplot",
+            "certificate_hash": "060284fc5d36bdf6694d648eec4b9b9b9cca5dd4"
+          }
+        },
+        {
           "client_id": "427763326374-7936tlo0vi0pijt5ar0mugjj9br03d7m.apps.googleusercontent.com",
           "client_type": 3
         }

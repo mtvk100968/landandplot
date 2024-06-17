@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.white,
         titleSpacing: 0.0,
         title: Text(
-          'rentloapp',
+          'Landandplot',
           style: TextStyle(
             color: Colors.blue,
             fontSize: 40,
