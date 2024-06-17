@@ -1,0 +1,36 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Rule for properties collection
+    match /properties/{propertyType}/listings/{listingId} {
+      allow read, write: if request.auth != null;
+    }
+    // Rule for apartmentdetails collection
+    match /apartmentdetails/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    // Rule for gated community apartments collection
+    match /gatedcommunityapts/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    // Rule for gated community villas collection
+    match /gatedcommunityvillas/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    // Rule for villas collection
+    match /villas/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    // Rule for houses collection
+    match /houses/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    // Rule for commercial spaces collection
+    match /commercialspaces/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    // Rule for clusters collection
+    match /clusters/{clusterId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
