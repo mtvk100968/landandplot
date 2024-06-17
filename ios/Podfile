@@ -1,7 +1,86 @@
-# Uncomment this line to define a global platform for your project
-platform :ios, '12.0'
+# platform :ios, '12.0'
+# source 'https://github.com/CocoaPods/Specs.git'
+#
+# ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+# ENV['FLUTTER_ROOT'] = '/Users/mrudula/flutter'
+#
+# install! 'cocoapods', :warn_for_unused_master_specs_repo => false
+#
+# project 'Runner', {
+#   'Debug' => :debug,
+#   'Profile' => :release,
+#   'Release' => :release,
+# }
+#
+# flutter_application_path = '../'
+# require File.join(ENV['FLUTTER_ROOT'], 'packages/flutter_tools/bin/podhelper.rb')
+#
+# def flutter_root
+#   generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
+#   unless File.exist?(generated_xcode_build_settings_path)
+#     raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first"
+#   end
+#
+#   File.foreach(generated_xcode_build_settings_path) do |line|
+#     matches = line.match(/FLUTTER_ROOT\=(.*)/)
+#     if matches
+#       puts "Flutter root is set to #{matches[1].strip}" # This will print the resolved path
+#       return matches[1].strip
+#     end
+#   end
+#   raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
+# end
+#
+# require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+#
+# flutter_ios_podfile_setup
+#
+# target 'Runner' do
+#   use_frameworks!
+#   use_modular_headers!
+#
+#   pod 'Firebase/Core'
+#   pod 'Firebase/Analytics', '~> 10.27.0'
+#   pod 'Firebase/Performance', '~> 10.27.0'
+#   pod 'Firebase/RemoteConfig', '~> 10.27.0'
+#   pod 'Firebase/Auth', '~> 10.27.0'
+#   pod 'Firebase/Firestore', '~> 10.27.0'
+#   pod 'Firebase/Functions', '~> 10.27.0'
+#   pod 'Firebase/Storage', '~> 10.27.0'
+#   pod 'Firebase/Database', '~> 10.27.0'
+#   pod 'Firebase/Messaging', '~> 10.27.0'
+#   pod 'Firebase/Crashlytics', '~> 10.27.0'
+#   pod 'Firebase/DynamicLinks', '~> 10.27.0'
+#   pod 'Firebase/AppDistribution', '~> 10.27.0'
+#   pod 'GoogleMaps', '~> 8.4'
+#   pod 'GoogleSignIn', '~> 7.1.0'
+#
+#   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+#
+#   target 'RunnerTests' do
+#     inherit! :search_paths
+#   end
+# end
+#
+# post_install do |installer|
+#   installer.pods_project.targets.each do |target|
+#     target.build_configurations.each do |config|
+#       config.build_settings['SWIFT_VERSION'] = '5.0'  # Adjust as necessary
+#       config.build_settings['HEADER_SEARCH_PATHS'] ||= '$(inherited) $(SRCROOT)/Pods/Headers/Public $(SRCROOT)/Pods/Headers/Public/FirebaseCore'
+#     end
+#   end
+#
+#   installer.pods_project.targets.each do |target|
+#     flutter_additional_ios_build_settings(target)
+#   end
+#
+#   project = Xcodeproj::Project.open('Runner.xcodeproj')
+#   project.save
+# end
 
-# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+
+platform :ios, '14.0'
+
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
 project 'Runner', {
@@ -15,12 +94,11 @@ def flutter_root
   unless File.exist?(generated_xcode_build_settings_path)
     raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first"
   end
-
   File.foreach(generated_xcode_build_settings_path) do |line|
     matches = line.match(/FLUTTER_ROOT\=(.*)/)
     return matches[1].strip if matches
   end
-  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
+  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting the Generated.xcconfig, then run flutter pub get"
 end
 
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
@@ -31,22 +109,14 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  # Firebase pods
-    pod 'Firebase/Core'
-    pod 'Firebase/Auth'
-    pod 'Firebase/Firestore'
-    pod 'Firebase/Analytics'
-
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-  target 'RunnerTests' do
-    inherit! :search_paths
-  end
 end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
     end
+    flutter_additional_ios_build_settings(target)
   end
 end

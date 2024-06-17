@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -75,7 +76,8 @@ class _ApartmentCardState extends State<ApartmentCard> {
           _imageFileList = pickedFileList;
         });
       } else {
-        final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+        final XFile? image =
+            await _picker.pickImage(source: ImageSource.gallery);
         if (image != null) {
           setState(() {
             _imageFileList = [image];
@@ -89,16 +91,20 @@ class _ApartmentCardState extends State<ApartmentCard> {
 
   Future<void> _requestPermissions() async {
     final PermissionStatus photosPermission = await Permission.photos.request();
-    final PermissionStatus storagePermission = await Permission.storage.request();
+    final PermissionStatus storagePermission =
+        await Permission.storage.request();
     final PermissionStatus cameraPermission = await Permission.camera.request();
 
-    if (photosPermission.isDenied || storagePermission.isDenied || cameraPermission.isDenied) {
+    if (photosPermission.isDenied ||
+        storagePermission.isDenied ||
+        cameraPermission.isDenied) {
       await showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Permissions Required'),
-            content: Text('Please grant all the required permissions to proceed.'),
+            content:
+                Text('Please grant all the required permissions to proceed.'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -121,7 +127,8 @@ class _ApartmentCardState extends State<ApartmentCard> {
 
       List<String> imageUrls = [];
       for (XFile image in _imageFileList) {
-        String? url = await StorageService.uploadImage(image.path, widget.propertyIdController.text);
+        String? url = await StorageService.uploadImage(
+            image.path, widget.propertyIdController.text);
         imageUrls.add(url!);
       }
 
@@ -266,7 +273,8 @@ class _ApartmentCardState extends State<ApartmentCard> {
                         },
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(r'^\+?[0-9]*$')),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\+?[0-9]*$')),
                           LengthLimitingTextInputFormatter(12),
                         ],
                       ),
@@ -330,7 +338,9 @@ class _ApartmentCardState extends State<ApartmentCard> {
                             return 'Please enter Rate per SFT';
                           }
                           final amount = int.tryParse(value);
-                          if (amount == null || amount < 0 || amount > 1000000) {
+                          if (amount == null ||
+                              amount < 0 ||
+                              amount > 1000000) {
                             return 'Please enter a valid Persft  (up to 10,00,00,000)';
                           }
                           return null;
@@ -343,13 +353,16 @@ class _ApartmentCardState extends State<ApartmentCard> {
                       ),
                       TextFormField(
                         controller: widget.aminitiesChargesController,
-                        decoration: InputDecoration(labelText: 'Amenities Charges'),
+                        decoration:
+                            InputDecoration(labelText: 'Amenities Charges'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter Amenities Charges';
                           }
                           final amount = int.tryParse(value);
-                          if (amount == null || amount < 0 || amount > 100000000) {
+                          if (amount == null ||
+                              amount < 0 ||
+                              amount > 100000000) {
                             return 'Please enter a valid Amenities Charges (up to 10,00,00,000)';
                           }
                           return null;
@@ -368,7 +381,9 @@ class _ApartmentCardState extends State<ApartmentCard> {
                             return 'Please enter Total Price';
                           }
                           final amount = int.tryParse(value);
-                          if (amount == null || amount < 0 || amount > 10000000000) {
+                          if (amount == null ||
+                              amount < 0 ||
+                              amount > 10000000000) {
                             return 'Please enter a valid Total Price (up to 100,00,00,000)';
                           }
                           return null;
@@ -429,51 +444,88 @@ class _ApartmentCardState extends State<ApartmentCard> {
                 ),
               ),
             ),
+            // Card(
+            //   child: Padding(
+            //     padding: EdgeInsets.all(16.0),
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.stretch,
+            //       children: <Widget>[
+            //         Text(
+            //           'Attach Images',
+            //           style:
+            //               TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            //         ),
+            //         ElevatedButton(
+            //           onPressed: _pickImages,
+            //           child: Text('Pick Images'),
+            //         ),
+            //         if (_imageFileList.isNotEmpty)
+            //           SingleChildScrollView(
+            //             scrollDirection: Axis.horizontal,
+            //             child: Row(
+            //               children: _imageFileList.map((image) {
+            //                 return Padding(
+            //                   padding: const EdgeInsets.all(8.0),
+            //                   child: Image.file(
+            //                     File(image.path),
+            //                     width: 100,
+            //                     height: 100,
+            //                   ),
+            //                 );
+            //               }).toList(),
+            //             ),
+            //           ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Card(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Text(
-                      'Attach Images',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    ElevatedButton(
-                      onPressed: _pickImages,
-                      child: Text('Pick Images'),
-                    ),
-                    if (_imageFileList.isNotEmpty)
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: _imageFileList.map((image) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.file(
-                                File(image.path),
-                                width: 100,
-                                height: 100,
-                              ),
-                            );
-                          }).toList(),
+              margin: EdgeInsets.all(16.0),
+              child: Container(
+                height: 300,
+                width: double.infinity,
+                child: _imageFileList.isEmpty
+                    ? Center(child: Text('No images selected'))
+                    : CarouselSlider(
+                        options: CarouselOptions(
+                          height: 300,
+                          enableInfiniteScroll: false,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.9,
                         ),
+                        items: _imageFileList.map((image) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                    image: FileImage(File(image.path)),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
                       ),
-                  ],
-                ),
               ),
+            ),
+            ElevatedButton(
+              onPressed: _pickImages,
+              child: Text('Pick Images'),
             ),
             GestureDetector(
               onTap: () {
                 _handleMapTap(LatLng(0, 0));
               },
               child: LocationCard(
-                initialPosition: LatLng(17.3850, 78.4867),
                 height: 400,
                 width: MediaQuery.of(context).size.width,
                 latitudeController: _latController,
                 longitudeController: _lngController,
-                onMapCreated: _onMapCreated,
               ),
             ),
             AmenitiesCard(
@@ -483,8 +535,11 @@ class _ApartmentCardState extends State<ApartmentCard> {
               onExtraAmenitiesChanged: _handleExtraAmenitiesChanged,
             ),
             ElevatedButton(
-              onPressed: _isSubmitting ? null : () => _savePropertyDetails(context),
-              child: _isSubmitting ? CircularProgressIndicator() : Text('Add Property'),
+              onPressed:
+                  _isSubmitting ? null : () => _savePropertyDetails(context),
+              child: _isSubmitting
+                  ? CircularProgressIndicator()
+                  : Text('Add Property'),
             ),
           ],
         ),

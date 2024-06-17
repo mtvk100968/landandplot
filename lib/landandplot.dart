@@ -36,7 +36,7 @@ import 'filter_screen.dart';
 import 'home_screen.dart';
 import 'instances/google_maps_api_client.dart';
 import 'models/cluster_item.dart';
-import 'models/map_property_address.dart';
+import 'models/map_property_info.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:location/location.dart' as loc;
 import 'package:geocoding_platform_interface/src/models/location.dart'
@@ -85,7 +85,7 @@ class _LandandPlotState extends State<LandandPlot> {
   CameraPosition _initialCameraPosition =
       const CameraPosition(target: LatLng(0, 0));
   late List<PropertyInfo> addresses; // Declare as a class member
-  late List<MapPropertyAddress> mapPropertyAddresses = [];
+  late List<MapPropertyInfo> mapPropertyAddresses = [];
   final FocusScopeNode _focusScopeNode = FocusScopeNode();
   Completer<GoogleMapController> _controllerCompleter =
       Completer<GoogleMapController>();
@@ -301,18 +301,18 @@ class _LandandPlotState extends State<LandandPlot> {
     var propertiesCollection =
         FirebaseFirestore.instance.collection('properties');
     var snapshots = await propertiesCollection.get();
-    return snapshots.docs
-        .map((doc) => PropertyInfo.fromSnapshot(doc))
-        .toList();
+    return snapshots.docs.map((doc) => PropertyInfo.fromSnapshot(doc)).toList();
   }
 
   Future<void> _updateMarkers(List<PropertyInfo> properties) async {
-    final markers = await convertPropertiesToMarkers(properties);  // Wait for the markers to be ready
+    final markers = await convertPropertiesToMarkers(
+        properties); // Wait for the markers to be ready
 
     setState(() {
       _markers.clear();
       for (final marker in markers) {
-        _markers[marker.markerId] = marker;  // Assuming _markers is a Map<MarkerId, Marker>
+        _markers[marker.markerId] =
+            marker; // Assuming _markers is a Map<MarkerId, Marker>
       }
     });
   }
@@ -408,8 +408,7 @@ class _LandandPlotState extends State<LandandPlot> {
         latitude: address.latitude,
         longitude: address.longitude,
         userId: '',
-        price: 0.0
-        , propertyType: '',
+        price: 0.0, propertyType: '',
         // Set other required fields based on your ClusterItem class
       );
     }).toList();
@@ -481,7 +480,8 @@ class _LandandPlotState extends State<LandandPlot> {
 
   Future<List<ClusterItem>> getClusterItems() async {
     List<ClusterItem> items = [];
-    var querySnapshot = await FirebaseFirestore.instance.collection('properties').get();
+    var querySnapshot =
+        await FirebaseFirestore.instance.collection('properties').get();
 
     for (var doc in querySnapshot.docs) {
       var data = doc.data() as Map<String, dynamic>;
@@ -489,7 +489,8 @@ class _LandandPlotState extends State<LandandPlot> {
       // Extract latitude and longitude directly.
       double? latitude = data['latitude'];
       double? longitude = data['longitude'];
-      double? price = data['price'];  // Ensure price is defined and correctly typed
+      double? price =
+          data['price']; // Ensure price is defined and correctly typed
 
       // Ensure both latitude and longitude are not null before adding to cluster items.
       if (latitude != null && longitude != null && price != null) {
@@ -497,10 +498,13 @@ class _LandandPlotState extends State<LandandPlot> {
           latitude: latitude,
           longitude: longitude,
           propertyId: doc.id,
-          iconPath: data['iconPath'] ?? 'assets/icons/gps.png',  // Use default icon if none provided
-          userId: data['userId'] ?? '',  // Use empty string if userId is not provided
-          price: price,  // Correctly typed price
-          propertyType: data['propertyType'] ?? '',  // Ensure propertyType is provided or defaulted
+          iconPath: data['iconPath'] ??
+              'assets/icons/gps.png', // Use default icon if none provided
+          userId: data['userId'] ??
+              '', // Use empty string if userId is not provided
+          price: price, // Correctly typed price
+          propertyType: data['propertyType'] ??
+              '', // Ensure propertyType is provided or defaulted
         ));
       }
     }
@@ -603,7 +607,8 @@ class _LandandPlotState extends State<LandandPlot> {
             position: LatLng(cluster.latitude, cluster.longitude),
             icon: BitmapDescriptor
                 .defaultMarker, // Use default marker for individuals
-            onTap: () => print("Tapped on individual marker ${cluster.propertyId}"),
+            onTap: () =>
+                print("Tapped on individual marker ${cluster.propertyId}"),
           );
         }
       }
@@ -805,7 +810,7 @@ class _LandandPlotState extends State<LandandPlot> {
         infoWindow: InfoWindow(
           title: cluster.isCluster
               ? '${cluster.pointsSize} properties'
-              : cluster.price.toString(),  // Convert price to String
+              : cluster.price.toString(), // Convert price to String
           snippet: cluster.isCluster ? 'Cluster' : 'Property',
         ),
         // Set the onTap function if necessary
@@ -815,7 +820,7 @@ class _LandandPlotState extends State<LandandPlot> {
 
   // CLUSTERS // CLUSTERS // CLUSTERS CLOSED
 
-  Future<List<MapPropertyAddress>> fetchAndPrepareMarkers(
+  Future<List<MapPropertyInfo>> fetchAndPrepareMarkers(
       {LatLng? nearLocation, double radiusInKm = 10.0}) async {
     print("Madhu = I am in fetchAndPrepareMarkers called");
     // Assume fetchPropertyAddresses() is asynchronous and returns a Future<List<PropertyAddress>>
@@ -836,10 +841,10 @@ class _LandandPlotState extends State<LandandPlot> {
             return distance <= radiusInKm;
           }).toList()
         : propertyAddresses; // Use all addresses if no nearLocation is provided
-    // Convert filtered addresses to MapPropertyAddress
-    List<MapPropertyAddress> mapPropertyAddresses =
+    // Convert filtered addresses to MapPropertyInfo
+    List<MapPropertyInfo> mapPropertyAddresses =
         filteredAddresses.map((address) {
-      return MapPropertyAddress(
+      return MapPropertyInfo(
         propertyId: address.propertyId,
         position: LatLng(address.latitude, address.longitude),
         icon: BitmapDescriptor
@@ -876,11 +881,12 @@ class _LandandPlotState extends State<LandandPlot> {
   }
 
   List<ClusterItem> convertMapPropertyAddressesToClusterItems(
-      List<MapPropertyAddress> addresses) {
+      List<MapPropertyInfo> addresses) {
     return addresses.map((address) {
       // Assuming MapPropertyAddress has properties like id, position.latitude, position.longitude, and icon
       return ClusterItem(
-        propertyId: address.propertyId, // Assuming propertyId is the equivalent of id
+        propertyId:
+            address.propertyId, // Assuming propertyId is the equivalent of id
         latitude: address.position.latitude,
         longitude: address.position.longitude,
         // icon: address.icon,
@@ -1316,7 +1322,10 @@ class _LandandPlotState extends State<LandandPlot> {
       case 0:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen(userId: '',)),
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                    userId: '',
+                  )),
         );
         break;
       case 1:
@@ -1354,7 +1363,9 @@ class _LandandPlotState extends State<LandandPlot> {
   Widget build(BuildContext context) {
     Set<Marker> markers = Set.from(listMarkers(_onMarkerTap));
     final List<Widget> _widgetOptions = <Widget>[
-      HomeScreen(userId: '',),
+      HomeScreen(
+        userId: '',
+      ),
       ProfilePage(),
       FavoritesPage(
         userId: userId,

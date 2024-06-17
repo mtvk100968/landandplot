@@ -266,12 +266,10 @@ class _CommercialPlotCardState extends State<CommercialPlotCard> {
               _handleMapTap(LatLng(0, 0));
             },
             child: LocationCard(
-              initialPosition: LatLng(17.3850, 78.4867),
               height: 400,
               width: MediaQuery.of(context).size.width,
               latitudeController: _latController,
               longitudeController: _lngController,
-              onMapCreated: _onMapCreated,
             ),
           ),
           RegularAmenitiesCard(

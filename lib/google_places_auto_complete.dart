@@ -11,7 +11,7 @@ import 'package:uuid/uuid.dart';
 import 'dart:async';
 import '../custom_drawer.dart';
 import 'data/marker_data.dart';
-import 'models/map_property_address.dart';
+import 'models/map_property_info.dart';
 
 enum CustomMapType {
   normal,

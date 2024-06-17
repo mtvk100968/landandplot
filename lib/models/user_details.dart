@@ -1,49 +1,62 @@
+// models/user_details.dart
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserDetails {
-  final int userId;
-  final String fullName;
-  final String contactNumber;
-  final String email;
-  final String? address;
-  final String? identityProof;
-  final int? ownedProperties;
-  final String imageUrl;
-  final String company;
+  final String userId;
+  final String? email;
+  final String? phoneNumber;
+  final String? fullName;
+  final String? imageUrl;
+  final String? company;
 
   UserDetails({
     required this.userId,
-    required this.fullName,
-    required this.contactNumber,
-    required this.email,
-    this.address,
-    this.identityProof,
-    this.ownedProperties,
-    required this.imageUrl,
-    required this.company,
+    this.email,
+    this.phoneNumber,
+    this.fullName,
+    this.imageUrl,
+    this.company,
   });
 
-  factory UserDetails.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+  Map<String, dynamic> toMap() {
+    return {
+      'userId': userId,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'fullName': fullName,
+      'imageUrl': imageUrl,
+      'company': company,
+    };
+  }
+
+  static UserDetails fromMap(Map<String, dynamic> map) {
     return UserDetails(
-      userId: data['owner_id'],
-      fullName: data['full_name'],
-      contactNumber: data['contact_number'],
-      email: data['email'],
-      address: data['address'],
-      identityProof: data['identity_proof'],
-      ownedProperties: data['owned_properties'],
-      imageUrl: data['imageUrl'],
-      company: data['company'],
+      userId: map['userId'],
+      email: map['email'],
+      phoneNumber: map['phoneNumber'],
+      fullName: map['fullName'],
+      imageUrl: map['imageUrl'],
+      company: map['company'],
     );
   }
 
   static Future<Map<String, UserDetails>> fetchUserDetailsMap() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('users').get();
-    Map<String, UserDetails> userDetailsMap = {};
-    for (var doc in querySnapshot.docs) {
-      userDetailsMap[doc.id] = UserDetails.fromFirestore(doc);
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('userDetails').get();
+
+      Map<String, UserDetails> userDetailsMap = {};
+
+      for (var doc in querySnapshot.docs) {
+        userDetailsMap[doc.id] =
+            UserDetails.fromMap(doc.data() as Map<String, dynamic>);
+      }
+
+      return userDetailsMap;
+    } catch (e) {
+      print('Error fetching user details: $e');
+      return {};
     }
-    return userDetailsMap;
   }
 }
