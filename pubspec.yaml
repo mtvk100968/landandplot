@@ -103,6 +103,24 @@ flutter:
          - assets/cluster_icon.png
          - assets/properties.json
          - assets/icons/gps.png
+         - assets:
+             - assets/images/temple-3181803_1280.jpg
+             - assets/images/landscape-5298395_1280.jpg
+             - assets/images/ladakh-2818861_1280.jpg
+             - assets/whatsapp_logo.png
+             - assets/cluster_icon.png
+             - assets/properties.json
+             - assets/images/whatsapp_logo.png
+             - assets/images/facebook_icon.png
+             - assets/images/google_icon.png
+             - assets/images/phone_icon.png
+             - assets/images_new/apartments_icon.png
+             - assets/images_new/villa_icon.png
+             - assets/images_new/gated-villa_icon.png
+             - assets/images_new/gated-apartment_icon.png
+             - assets/images_new/house_icon.png
+             - assets/images_new/commercial_icon.png
+
 
 #    fonts:
 #      - family: RobotoCondensed
